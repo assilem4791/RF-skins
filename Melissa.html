@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="user-scalable=no,width=device-width" />
+    <title>Larson Light Show</title>
+    <style type="text/css">
+        /* import fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Cherry+Swash:wght@400;700&family=Codystar:wght@300;400&family=Copse&display=swap');
+
+        /* Reset all box sizing */        
+        *, *::before, *::after {
+        box-sizing: border-box;
+        }
+
+        /* Remove all margins and padding */
+        body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+        margin: 0;
+        padding: 0;
+        }
+
+        /* 
+        ######################################
+        ######### Table of contents ##########
+        ######################################
+
+        Section 1: variables
+        Section 2: properties
+        Section 3: heading
+            Section 3.1: title
+            Section 3.2: animation
+        Section 4: address
+        Section 5: on/off the air graphic
+        Section 6: Tune to info 
+        Section 7: Remote Falcon Titles 
+        Section 8: Utility classes
+
+
+        
+        
+        Viewer Page Dynamic Elements
+        Located on the Viewer Page are a number of dynamic div containers, tags, and status messages that allow Remote Falcon to automatically show and hide sections of the page and insert data into the appropriate spots. Following is a list of each dynamic container and each tag used on the viewer page, along with a description of its purpose:
+
+        Dynamic Div Containers:
+
+        {after-hours-message} - The content within this dynamic div container only appears when Viewer Control has been turned off. It's purpose is to display content to be seen when your show is not running.
+        {jukebox-dynamic-container} - Anything that appears in this container will display if Jukebox mode is enabled.
+        {playlist-voting-dynamic-container} - Anything in this container will display if Voting mode is enabled.
+        {location-code-dynamic-container} - If you have the Code option selected for Viewer Location Checks, then the content within this container will display.
+        Tags
+
+        {NOW_PLAYING} - Displays the current playing sequence.
+        {NEXT_PLAYLIST} - Displays the next playlist in the queue (used only in Jukebox mode).
+        {QUEUE_SIZE} - Displays the current size of the queue.
+        {JUKEBOX_QUEUE} - Displays a list of all the sequences that are currently in the queue (does not include NEXT_PLAYLIST).
+        {QUEUE_DEPTH} - Displays the current maximum queue depth that is set in the Control Panel.
+        {LOCATION_CODE} - Displays the input field used to enter the location code.
+        {PLAYLISTS} - Displays the list of playlists (if Jukebox) or playlist plus votes (if Voting).
+        Status Messages
+
+        requestSuccessful - Displays if a request or vote is made successfully.
+        requestFailed - Displays if something bad happens and we don't know why.
+        requestPlaying - Displays if a request is made for a sequence that is already playing, up next, or falls withing the request limit.
+        queueFull - Displays if a request is made that exceeds the maximum queue depth.
+        invalidLocation - Displays if GPS Location is selected for Viewer Location Checks and the viewer attempts to place a request or vote outside the allowed radius.
+        alreadyVoted - Displays if Prevent Multiple Votes is enabled and a viewer tries to vote more than once in a given round.
+        invalidLocationCode - Displays if the Code option selected for Viewer Location Checks and a viewer attempts to place a request or vote with an incorrect or missing code.
+        locationNotice - Displays a notice if the viewer has not accepted location info and location checks are enabled.
+        */
+
+
+        /* Section 1: variables */
+        :root{
+         --primarycolor1: white;
+         --primarycolor2: red;
+         --primarycolor3: green;
+         --background: linear-gradient(to left, black, green, black);
+         --font-small: clamp(.25rem, -.0875rem + 8.333vw, 1rem);
+         --font-sm-med: clamp(.50rem, -.0875rem + 8.333vw, 1.5rem);
+         --font-medium: clamp(.10rem, -.0875rem + 8.333vw, 2rem);
+         --font-large:  2.75rem;
+         --font-xlarge: clamp(3rem, 12vw + 1, 5rem);
+         --font-xxlarge: clamp(.10rem, -.0875rem + 8.333vw, 7rem);
+         --fontfam-cody: 'Codystar', cursive;
+         --fontfam-cherry: 'Cherry Swash', cursive;
+         --fontfam-copse: 'Copse', serif;
+         --fontfam-moutains: 'Mountains of Christmas', cursive;
+        }
+
+        /* Section 2: properties */
+        body {
+         /* position: fixed; */
+         background: var(--background);
+         background-repeat: no-repeat;
+         background-attachment: fixed;
+         justify-content: center;
+         align-items: center;
+         text-align: center;
+         color: var(--primarycolor1);   
+         height: 100vh;
+         height: 100svh;
+         width: 100vw;
+         width: 100svw;
+         overflow: scroll;
+        }
+
+
+        /* Make images easier to work with */
+        img,
+        picture,
+        svg {
+          display: block;
+          size: 100%;
+        }
+        
+        /* Section 3: heading*/
+        /* Section 3.1: title */
+        .heading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: var(--font-xxlarge);
+        font-family: var(--fontfam-cody);
+        padding-left: 25%;
+        Padding-right: 25%;
+        }
+
+        .bounce1, .bounce2, .bounce3, .bounce4, .bounce5, .bounce6 {
+        animation-name: bounce;
+        animation-timing-function: ease-in-ease-out;
+        animation-iteration-count: infinite;
+        animation-duration: .60s;         
+        }
+        .bounce1 {
+        animation-delay: .25s; 
+        }
+        .bounce2 {
+        animation-delay: .35s;
+        }
+        .bounce3 {
+        animation-delay: .45s;
+        }
+
+        .bounce4 {
+        animation-delay: .55s;
+        }
+        .bounce5 {
+        animation-delay: .65s;
+        }
+        .bounce6 {
+        animation-delay: .75s;
+        }
+
+        @keyframes bounce {
+        0% {
+        transform: translateY(0);
+        }
+        50% {
+        transform: translateY(1.875rem);
+        }
+        100% {
+        transform: translateY(0);
+        }
+        }
+
+        .color-changer {
+          animation: color-changer 10s linear infinite;
+        }
+
+      @keyframes color-changer {
+        0% {
+          color: red;
+        }
+        50% {
+          color: limegreen;
+        }
+        100% {
+          color: white;
+        }
+      }
+
+
+    
+    /* Section 3.2: santa animation */
+      .wrapper {
+        position: relative;
+        margin: 0;
+        display: flex;
+        height: inherit;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        }
+      
+      .sc-hat, .sc-head .ears, .sc-head .beard::before, .sc-head .nose, .room-window::after, .room-window::before, .tree-jar, .tree-stalk {
+        display: table;
+        margin: 0 auto;
+      }
+      
+      .tie-wrap::after, .tie-wrap::before {
+        position: absolute;
+        content: "";
+        width: 0;
+        height: 0;
+        border-left: 17px solid transparent;
+        border-right: 0 solid transparent;
+        border-bottom: 40px solid yellow;
+        left: 21px;
+        top: 5px;
+      }
+
+      .ground {
+        background: rgba(0, 0, 0, 0.12);
+        width: calc(100vw - 20%);
+        height: 70px;
+        border-radius: 50%;
+        display: table;
+      }
+      
+      .scene {
+        max-width: calc(100vw - 30%);
+        min-width: 640px;
+        position: relative;
+      }
+      
+      .xmas-tree {
+        position: relative;
+        top: 80px;
+        float: left;
+      }
+
+      .tree-star {
+        position: absolute;
+        top: 0;
+        left: 40%;
+        z-index: 4;
+      }
+      .tree-star::before {
+        content: "";
+        position: absolute;
+        bottom: -16px;
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 25px solid #fcd000;
+        box-shadow: 1px 19px 20px -7px #1d5022;
+      }
+      .tree-star::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-top: 25px solid #fcd000;
+      }
+
+      .tree-part {
+        width: 0;
+        height: 0;
+        border-left: 80px solid transparent;
+        border-right: 80px solid transparent;
+        border-bottom: 100px solid #49bd55;
+        position: relative;
+        z-index: 3;
+      }
+      .tree-part::before {
+        content: "";
+        position: absolute;
+        width: 160px;
+        background-repeat: repeat;
+        height: 15px;
+        background-size: 20px 20px;
+        background-image: radial-gradient(circle at 10px 15px, #3fae4a 12px, transparent 13px);
+        top: 99px;
+        left: -80px;
+        transform: rotateX(180deg);
+      }
+      .tree-part:nth-child(2) {
+        border-bottom-color: #31883a;
+        transform: scale(1.4);
+        top: -45px;
+        z-index: 2;
+      }
+      .tree-part:nth-child(2)::before {
+        background-image: radial-gradient(circle at 10px 15px, #389b42 12px, transparent 13px);
+      }
+      .tree-part:nth-child(3) {
+        border-bottom-color: #2b7532;
+        transform: scale(1.8);
+        top: -80px;
+        z-index: 1;
+      }
+      .tree-part:nth-child(3)::before {
+        background-image: radial-gradient(circle at 10px 15px, #31883a 12px, transparent 13px);
+      }
+
+      .tree-stalk {
+        width: 25px;
+        height: 75px;
+        background: #7b652d;
+        box-shadow: inset 0 22px 6px -1px #302812;
+        position: relative;
+        top: -40px;
+      }
+
+      .tree-jar {
+        width: 80px;
+        position: relative;
+        top: -40px;
+        left: 2px;
+      }
+      .tree-jar::before {
+        content: "";
+        width: 96px;
+        height: 20px;
+        float: left;
+        background: #584444;
+        box-shadow: 0 3px 2px -1px #4a3939;
+        position: relative;
+        border-radius: 2px;
+        left: -3px;
+      }
+      .tree-jar::after {
+        content: "";
+        border-top: 50px solid #755a5a;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        height: 0;
+        width: 90px;
+        float: left;
+      }
+
+      .tree-lights {
+        width: 120px;
+        height: 20px;
+        border-radius: 50%;
+        box-shadow: 0 3px 0 -1px #000;
+      }
+      .tree-lights.left {
+        transform: rotateZ(-20deg);
+        position: relative;
+        left: -73px;
+        top: 41px;
+      }
+      .tree-lights.right {
+        transform: rotateY(180deg) rotateZ(-20deg);
+        position: relative;
+        left: -43px;
+        top: 31px;
+      }
+
+      .light-bulb {
+        width: 8px;
+        height: 3px;
+        background: black;
+        margin: 20px;
+        border-radius: 20% 50%;
+        position: absolute;
+        animation: 1s cubic-bezier(0.39, 0.58, 0.57, 1) infinite;
+      }
+      .light-bulb.red {
+        background: #de3939;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.14), 0 2px 6px 2px #de3939;
+        transform: rotateZ(-73deg);
+        top: 2px;
+        left: -9px;
+        animation-name: blink;
+      }
+      .light-bulb.yew {
+        background: #69e622;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.14), 0 2px 6px 2px #69e622;
+        transform: rotateZ(-86deg);
+        top: 6px;
+        left: 20px;
+        animation-name: blink2;
+      }
+      .light-bulb.purple {
+        background: #9c6aff;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.14), 0 2px 6px 2px #9c6aff;
+        transform: rotateZ(-96deg);
+        top: 6px;
+        left: 50px;
+        animation-name: blink3;
+      }
+      .light-bulb.blue {
+        background: #0ebeff;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.14), 0 2px 6px 2px #0ebeff;
+        transform: rotateZ(-106deg);
+        top: 3px;
+        left: 75px;
+        animation-name: blink4;
+      }
+      
+      .room-window {
+        width: 340px;
+        height: 300px;
+        border: 10px solid #ccaa53;
+        box-shadow: 4px 5px 2px 0px rgba(182, 146, 54, 0.3);
+        float: right;
+        overflow: hidden;
+        position: relative;
+      }
+      .room-window::before {
+        content: "";
+        background: #ccaa53;
+        box-shadow: 1px 0 1px 1px #a28230;
+        width: 10px;
+        height: inherit;
+        position: absolute;
+        left: 48%;
+        z-index: 1;
+      }
+      .room-window::after {
+        content: "";
+        background: #ccaa53;
+        width: inherit;
+        height: 10px;
+        position: absolute;
+        top: 48%;
+        z-index: 1;
+      }
+      .room-window .xmas-sky {
+        background: linear-gradient(0deg, #153d54, #061117);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+      }
+
+      .snow-ground {
+        width: 455px;
+        height: 105px;
+        background: linear-gradient(0deg, #fff, #ccf0fd);
+        border-radius: 40%;
+        position: absolute;
+        bottom: -44px;
+        left: -24px;
+        transform: rotateZ(-6deg);
+      }
+
+      .xmas-gifts {
+        position: absolute;
+        bottom: -41px;
+        left: 176px;
+      }
+
+      .xmas-gift {
+        border-radius: 4px;
+      }
+      .xmas-gift::before {
+        content: "";
+        width: 100%;
+        height: 10px;
+        background: yellow;
+        box-shadow: -30px 0 0 0 #d6d600;
+        display: block;
+        position: relative;
+        top: 35px;
+      }
+      .xmas-gift::after {
+        content: "";
+        width: 10px;
+        height: inherit;
+        background: yellow;
+        display: block;
+        position: relative;
+        top: -10px;
+        margin: auto;
+      }
+      .xmas-gift.square {
+        width: 80px;
+        height: 80px;
+        background: #ff54cf;
+        box-shadow: -30px 0 0 0 #ed00aa;
+        position: relative;
+        z-index: 1;
+      }
+      .xmas-gift.rectangular {
+        width: 60px;
+        height: 120px;
+        background: #0ebeff;
+        box-shadow: -30px 0 0 0 #008dc1;
+        position: absolute;
+        top: -50px;
+        left: 100px;
+      }
+
+      .tie-wrap {
+        position: absolute;
+        top: -20px;
+        left: -6px;
+        min-width: 82px;
+      }
+      .tie-wrap .tie, .tie-wrap .tie::before {
+        width: 40px;
+        height: 20px;
+        background: yellow;
+        border-radius: 50% 50% 20% 20%;
+        float: left;
+        z-index: 1;
+        position: relative;
+      }
+      .tie-wrap .tie::before {
+        content: "";
+        background: #cccc00;
+        transform: scale(0.5) translateX(15px) translateY(8px);
+      }
+      .tie-wrap .tie.reflected, .tie-wrap .reflected.tie::before {
+        transform: rotateY(180deg);
+      }
+      .tie-wrap .tie.reflected::before {
+        transform: scale(0.5) translateX(2px) translateY(8px);
+      }
+      .tie-wrap::after {
+        transform: rotateY(180deg);
+        left: 54px;
+      }
+
+      .rectangular .tie-wrap {
+        left: -16px;
+      }
+
+      .santa-claus {
+        margin: 40px;
+        animation: santa-claus 6s ease-in infinite;
+      }
+
+      .sc-head {
+        width: 80px;
+        height: 80px;
+        border-radius: 40%;
+        background: #f7caaf;
+        position: relative;
+        z-index: 2;
+      }
+      .sc-head .eyes {
+        position: absolute;
+        left: 2px;
+        top: 20px;
+        display: table;
+        margin: 0 auto;
+      }
+      .sc-head .eyes::before, .sc-head .eyes::after {
+        content: "";
+        width: 8px;
+        height: 8px;
+        background: #000;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 0 15px;
+      }
+      .sc-head .nose {
+        width: 20px;
+        height: 13px;
+        border-radius: 50%;
+        background: #d48c7e;
+        top: 32px;
+        position: relative;
+      }
+      .sc-head .beard {
+        position: absolute;
+        bottom: -45px;
+        left: -10px;
+        background: #fff;
+        width: calc(100% + 20px);
+        height: 80px;
+        border-radius: 20% 20% 60% 60%;
+      }
+      .sc-head .beard::before {
+        content: "";
+        width: 20px;
+        height: 20px;
+        background: #000;
+        border-radius: 0 0 50% 50%;
+        margin-top: 6px;
+      }
+      .sc-head .ears {
+        width: calc(100% + 17px);
+        position: absolute;
+        top: 25px;
+        left: -8px;
+      }
+      .sc-head .ears .ear {
+        width: 10px;
+        height: 20px;
+        background: #d48c7e;
+        border-radius: 50% 0 0 50%;
+      }
+      .sc-head .ears .ear.left {
+        float: left;
+      }
+      .sc-head .ears .ear.right {
+        float: right;
+        transform: rotateZ(180deg);
+      }
+
+      .sc-hat {
+        position: absolute;
+        top: -37px;
+        left: -6px;
+        width: calc(100% + 10px);
+        height: 55px;
+        background: #de3939;
+        border-radius: 60px 80px 0 0;
+      }
+      .sc-hat::before {
+        content: "";
+        width: inherit;
+        height: 20px;
+        background: #fff;
+        display: block;
+        border-radius: 6px;
+        position: absolute;
+        bottom: -5px;
+        left: -4px;
+      }
+      .sc-hat .hat-tip {
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-bottom: 69px solid #de3939;
+        position: absolute;
+        top: -37px;
+        animation: swing 2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+        left: 8px;
+      }
+      .sc-hat .hat-tip::before {
+        content: "";
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 50%;
+        display: block;
+        position: absolute;
+        left: -13px;
+        top: -10px;
+      }
+
+      .sc-body {
+        position: absolute;
+        left: -70px;
+        width: 200px;
+        height: 200px;
+        background: #de3939;
+        border-radius: 30%;
+      }
+
+      .snow,
+      .snow:before,
+      .snow:after {
+        position: absolute;
+        top: -600px;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-image: radial-gradient(4px 4px at 381px 283px, white 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 255px 364px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 64px 390px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 257px 448px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 491px 465px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 461px 216px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 167px 220px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 562px 51px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 572px 193px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 539px 337px, white 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 228px 116px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 345px 554px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 358px 179px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 195px 459px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 219px 328px, white 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 322px 48px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 93px 51px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 60px 266px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 50px 235px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 307px 19px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 69px 587px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 488px 490px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 326px 271px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 586px 458px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 201px 368px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 221px 15px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 188px 101px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 150px 370px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 62px 275px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 588px 110px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 186px 365px, white 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 279px 122px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 430px 406px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 478px 236px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 126px 79px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 332px 563px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 137px 292px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 192px 423px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 388px 335px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 441px 215px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 463px 83px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 569px 80px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 369px 243px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 320px 29px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 246px 237px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 328px 371px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 228px 304px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 440px 456px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 21px 241px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 417px 555px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 331px 295px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 341px 409px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 248px 168px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 36px 31px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 483px 61px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 6px 187px, white 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 582px 118px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 498px 255px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 246px 482px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 231px 100px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 470px 70px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 392px 31px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 497px 447px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 106px 112px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 133px 593px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 384px 536px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 208px 86px, white 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 388px 498px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 148px 540px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 452px 591px, white 70%, rgba(0, 0, 0, 0));
+        background-size: 600px 600px;
+        animation: snow 4s linear infinite;
+        content: "";
+      }
+
+      .snow:after {
+        margin-left: -200px;
+        opacity: 0.4;
+        animation-duration: 8s;
+        animation-direction: reverse;
+        filter: blur(3px);
+      }
+
+      .snow:before {
+        animation-duration: 12s;
+        animation-direction: reverse;
+        margin-left: -300px;
+        opacity: 0.65;
+        filter: blur(1.5px);
+      }
+
+      @keyframes snow {
+        to {
+          transform: translateY(600px);
+        }
+      }
+      @keyframes blink {
+        20% {
+          background: #eb8888;
+        }
+      }
+      @keyframes blink2 {
+        60% {
+          background: white;
+        }
+      }
+      @keyframes blink3 {
+        75% {
+          background: #d9c6ff;
+        }
+      }
+      @keyframes blink4 {
+        100% {
+          background: #a7e7ff;
+        }
+      }
+      @keyframes santa-claus {
+        0%, 60%, 80%, 100% {
+          transform: rotateZ(195deg) translateY(0);
+        }
+        30% {
+          transform: rotateZ(195deg) translateY(300px);
+        }
+      }
+      @keyframes swing {
+        0%, 100% {
+          transform: rotateZ(-42deg);
+        }
+        50% {
+          transform: rotateZ(0deg);
+        }
+      }
+      @keyframes balloon {
+        0%, 50%, 100% {
+          opacity: 0;
+          transform: translateY(0px);
+        }
+        80%, 90% {
+          opacity: 1;
+          transform: translateY(-15px);
+        }
+      }
+
+     
+      /* Section 4: address */
+      .address {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        font-size: var(--font-medium);
+        font-family: var(--fontfam-copse);
+        align-items: center;
+        justify-content: center;
+      }
+
+      .address img {
+        height: 7rem;
+        width: 7rem;
+        margin: 0 auto; 
+      }
+
+
+       /* Section 5: on/off the air graphic */
+      .buttonContainer {
+      position: relative;
+      margin: 2rem auto;
+      height: 7rem;
+      width: 20rem;
+      background-color: lightgray;
+      font-family: var(--fontfam-copse);
+      font-weight: var(--fw-bold);
+      font-size: var(--font-large);
+      border-radius: 10%;
+      align-items: center;
+    }
+
+    .buttonstripes {
+      position: absolute;
+      background-color: gray;
+      height: 5%;
+      width: 100%;
+      left: 0;
+      z-index: 1;
+    }
+
+    #stripe1 {
+      top: 30%;
+    }
+
+    #stripe2 {
+      top: 40%;
+    }
+
+    #stripe3 {
+      top: 50%;
+    }
+
+    #stripe4 {
+      top: 60%;
+    }
+
+    #stripe5 {
+      top: 70%;
+    }
+
+    .offAir {
+      position: absolute;
+      height: 85%;
+      width: 85%;
+      top: 7%;
+      left: 7%;
+      background-color: lightyellow;
+      color: black;
+      border-radius: 10%;
+      font-size: 1.5em;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .onAir {
+      position: absolute;
+      height: 85%;
+      width: 85%;
+      top: 7%;
+      left: 7%;
+      background-color: lightyellow;
+      border-radius: 10%;
+      font-size: 1.5em;
+      text-align: center;
+      z-index: 2;
+      animation: glowing 1300ms infinite;
+    }
+
+    #pButton {
+      animation: color-change 1300ms infinite;
+    }
+
+    @keyframes color-change {
+      0% {
+        color: darkred;
+      }
+
+      50% {
+        color: red;
+      }
+
+      100% {
+        color: darkred;
+      }
+    }
+
+    @keyframes glowing {
+      0% {
+        background-color: lightyellow;
+        box-shadow: 0 0 10px lightyellow;
+      }
+
+      50% {
+        background-color: lightyellow;
+        box-shadow: 0 0 150px lightyellow;
+      }
+
+      100% {
+        background-color: lightyellow;
+        box-shadow: 0 0 10px lightyellow;
+      }
+    }
+
+      /* Section 6: Tune to info */
+      .tuneto {
+        font-size: var(--font-medium);
+        font-family: var(--fontfam-cherry);
+        padding-bottom: 1rem;
+      }
+
+      /* Section 7: Remote Falcon Titles */
+      .rf-titles {
+        align-items: center;
+        width: 50%;
+        margin: 0 auto;
+        font-family: var(--fontfam-cherry);        
+        font-size: var(--font-sm-med);
+        border-style: .25rem;
+        border-style: dotted;
+        border-radius: 1rem;
+        background: linear-gradient(to left, black, green, black);
+        }
+
+      .playing-now, .jukebox-queue-container {
+        font-family: var(--fontfam-copse);
+        font-size: var(--font-sm-med);
+      }
+
+      /* Section 8: Utility classes */
+      .text {
+      display: inline-block;
+      color: var(--background);
+      font-size: var(--font-medium);
+      font-weight: bold;
+      position: relative;
+      font-family: sans-serif;
+      text-transform: uppercase;
+      text-shadow: var(--backgroundShadow),
+      }
+
+      .bodyarea {
+      position: relative;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+        /*******************************
+          The rtable is used to configure table where the rf lists will show
+          You shouldn't modify this
+      *******************************/
+    .rtable {
+      display: flex;
+      flex-wrap: wrap;
+      margin: auto;
+      text-align: center;
+      width: 80%;
+      padding: 0;
+      font-family: var(--fontfam-copse);
+      font-size: var(--font-sm-med);
+    }
+
+    			/*******************************
+      The cell-vote-playlist is used to configure the table where the rf lists will show when you are using the voting mode
+      You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+				 /*******************************
+      The cell-vote is used to configure the table where the rf lists will show when you are using the voting mode
+      You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+			 /*******************************
+          The jukebox-list is used to configure the table where the rf lists will show when you are using the jukebox mode
+          You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+	 .cell-vote-playlist, .cell-vote, .jukebox-list {
+        position: relative;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;   
+        margin: 0 auto;
+        padding: .1rem;
+        box-sizing: border-box;
+        color: var(--primarycolor1);
+        background: #000;
+        background-clip: padding-box;
+        border: solid 5px transparent;
+        border-radius: 1em;
+	}
+
+    .cell-vote-playlist:hover, .jukebox-list:hover {
+      color: var(--primarycolor3);
+      cursor: pointer;
+      margin: -2px;
+    }
+
+ 			/*******************************
+      The cell-vote-playlist is used to configure the table where the rf lists will show when you are using the voting mode
+      You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+    .cell-vote-playlist {
+      width: 80%;
+      
+    }
+
+    .cell-vote-playlist h2:hover {
+      color: var(--primarycolor1);
+      margin: -5px;
+    }
+    /*******************************
+      The cell-vote is used to configure the table where the rf lists will show when you are using the voting mode
+      You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+    .cell-vote {      
+      width: 20%;      
+    }
+
+    .cell-vote:before, .jukebox-list:before, .cell-vote-playlist:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      margin: -5px;
+      border-radius: inherit;
+      background: linear-gradient(to right, red, green);
+      z-index: -1;
+    }
+
+      /*******************************
+          The playlists-container is used to configure the section where the
+          list of your songs is shown
+      *******************************/
+      #playlists_container {
+      /** only needed if you want a different background color for this section
+        background-color: #000000;
+        **/
+      margin: auto;
+      width: 90%;
+      color: #FFFFFF;
+      text-align: center;
+      padding: 2% 25%;
+      font-family: var(--fontfam-copse);
+      font-size: var(--font-sm-med);
+    }
+
+    /*******************************
+          The jukebox-list is used to configure the table where the rf lists will show when you are using the jukebox mode
+          You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+    .jukebox-list {
+      width: 100%;
+     }
+    /*******************************
+          The innerRequestSuccessful is used to configure the message for sucessful requests
+      *******************************/
+      .innerRequestSuccessful {
+      background-color: var(--primarycolor3);
+      color: var(--primarycolor1);
+    }
+
+    /*******************************
+      The failed_Info_Box is used to configure the message for unsucessful requests
+      *******************************/
+    .failed_Info_Box {
+      background-color: var(--primarycolor2);
+      color: var(--primarycolor1);
+    }
+
+    .innerRequestSuccessful,
+    .failed_Info_Box {
+      position: absolute;
+      width: 80%;
+      left: 50%;
+      border-radius: 10px;
+      text-align: center;
+      font-size: var(--font-sm-med);
+      transform: translate(-50%, -50%);
+      z-index: 100;
+    }
+
+       
+       /* If the page is being viewed on a mobile device, 
+      only show santa in the window, 
+      hide the tree and presents */
+      @media only screen and (max-width: 500px){
+        .xmas-gifts,.xmas-gift,.square,.rectanglar, .tie-wrap, .tie, .rectangular,.ground,.xmas-tree,.tree-star,.tree-part,.tree-stalk,.tree-jar,.tree-lights,.light-bulb {
+        display: none;
+        }
+        body {
+            width:100vw;
+            overflow-x: hidden;
+        }
+        .room-window {
+          width: 255px;
+          height: 225px;
+          top: 5rem;
+          right: 10%;
+          transform: translate(-50%, -50%);
+          border: 7.5px solid #ccaa53;
+        }
+
+        .address {
+          font-size: var(--font-sm-med);
+        }
+      }    
+
+      .rtable {
+        font-size: var(--font-small);
+      }
+
+      .heading {
+        padding-bottom: 5rem;
+        }
+      
+
+
+    </style>
+</head>
+<body>
+    <!--Section 3: heading-->
+    <!--Section 3.1: title-->
+    <div class="heading color-changer">
+        <span class=" bounce1">S</span>
+        <span class="bounce2">l</span>
+        <span class="bounce3">e</span>
+        <span class="bounce4">i</span>
+        <span class="bounce5">g</span>
+        <span class="bounce6">h</span>
+        &nbsp;
+        <span class=" bounce1">B</span>
+        <span class="bounce2">e</span>
+        <span class="bounce3">l</span>
+        <span class="bounce4">l</span>
+        &nbsp;
+        <span class="bounce1">M</span>
+        <span class="bounce2">e</span>
+        <span class="bounce3">l</span>
+        <span class="bounce4">'</span>
+        <span class="bounce5">s</span>
+  </div>
+
+  <!--Section 3.2: animation-->  
+  <div class="wrapper">
+    <div class="scene">
+      <div class="xmas-tree">
+        <div class="tree-star">
+        </div>
+        <div class="tree-leaves">
+          <div class="tree-part">
+            <div class="tree-lights left">
+              <div class="light-bulb red"></div>
+              <div class="light-bulb yew"></div>
+              <div class="light-bulb purple"></div>
+              <div class="light-bulb blue"></div>
+            </div>
+            <div class="tree-lights right">
+              <div class="light-bulb red"></div>
+              <div class="light-bulb yew"></div>
+              <div class="light-bulb purple"></div>
+              <div class="light-bulb blue"></div>
+            </div>
+          </div>
+          <div class="tree-part">
+            <div class="tree-lights left">
+              <div class="light-bulb red"></div>
+              <div class="light-bulb yew"></div>
+              <div class="light-bulb purple"></div>
+              <div class="light-bulb blue"></div>
+            </div>
+            <div class="tree-lights right">
+              <div class="light-bulb red"></div>
+              <div class="light-bulb yew"></div>
+              <div class="light-bulb purple"></div>
+              <div class="light-bulb blue"></div>
+            </div>
+          </div>
+          <div class="tree-part">
+            <div class="tree-lights left">
+              <div class="light-bulb red"></div>
+              <div class="light-bulb yew"></div>
+              <div class="light-bulb purple"></div>
+              <div class="light-bulb blue"></div>
+            </div>
+            <div class="tree-lights right">
+              <div class="light-bulb red"></div>
+              <div class="light-bulb yew"></div>
+              <div class="light-bulb purple"></div>
+              <div class="light-bulb blue"></div>
+            </div>
+          </div>
+        </div>
+        <div class="tree-base">
+          <div class="tree-stalk"></div>
+          <div class="tree-jar"></div>
+        </div>
+      </div>
+      <div class="room-window">
+        <div class="xmas-sky">
+          <div class="snow"></div>
+          <div class="snow-ground"></div>
+          <div class="santa-claus">
+            <div class="sc-head">
+              <div class="sc-hat">
+                <div class="hat-tip"></div>
+              </div>
+              <div class="eyes"></div>
+              <div class="nose"></div>
+              <div class="beard"></div>
+              <div class="ears">
+                <div class="ear left"></div>
+                <div class="ear right"></div>
+              </div>
+            </div>
+            <div class="sc-body"></div>
+          </div>
+        </div>
+      </div>
+      <div class="xmas-gifts">
+        <div class="xmas-gift square">
+          <div class="tie-wrap">
+            <div class="tie"></div>
+            <div class="tie reflected"></div>
+          </div>
+        </div>
+        <div class="xmas-gift rectangular">
+          <div class="tie-wrap">
+            <div class="tie"></div>
+            <div class="tie reflected"></div>
+          </div>
+        </div>
+      </div>
+    </div>      
+    <div class="ground"></div>
+  </div>
+    <!--Section: 4: address-->
+    <div class="address">
+      <a href="https://goo.gl/maps/RFEa9zYTD9jjJSyM9" target="_blank">
+        <img src="https://i.postimg.cc/nLt45NDM/maps-icon.png" alt="Sleigh Bell Mel's;" />
+      </a>
+      <a href="https://goo.gl/maps/RFEa9zYTD9jjJSyM9" target="_blank">
+        261 North Street<br />
+        Whitney Point, NY 13862</a>
+      <br><br>
+      Weeknights: Dusk - 10:30 PM <br>
+      Weekends & Holidays: Dusk - 11:30 PM
+    </div>
+    <!--Section 5: on/off the air graphic-->
+    <!--OFF THE AIR only shows when the show is not running-->
+    <div {after-hours-message}="">
+      <div class="buttonContainer">
+        <div class="buttonstripes" id="stripe1"></div>
+        <div class="buttonstripes" id="stripe2"></div>
+        <div class="buttonstripes" id="stripe3"></div>
+        <div class="buttonstripes" id="stripe4"></div>
+        <div class="buttonstripes" id="stripe5"></div>
+        <div class="offAir">
+          <p>OFF AIR</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ON THE AIR only shows if you have chosen the jukebox option-->
+    <div {jukebox-dynamic-container}="">
+      <div class="buttonContainer">
+        <div class="buttonstripes" id="stripe1"></div>
+        <div class="buttonstripes" id="stripe2"></div>
+        <div class="buttonstripes" id="stripe3"></div>
+        <div class="buttonstripes" id="stripe4"></div>
+        <div class="buttonstripes" id="stripe5"></div>
+        <div class="onAir">
+          <div id="pButton">ON AIR</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ON THE AIR only shows if you have chosen the voting option-->
+    <div {playlist-voting-dynamic-container}="">
+      <div class="buttonContainer">
+        <div class="buttonstripes" id="stripe1"></div>
+        <div class="buttonstripes" id="stripe2"></div>
+        <div class="buttonstripes" id="stripe3"></div>
+        <div class="buttonstripes" id="stripe4"></div>
+        <div class="buttonstripes" id="stripe5"></div>
+        <div class="onAir">
+          <div id="pButton">ON AIR</div>
+        </div>
+      </div>
+    </div>
+    <!--Section 6: Tune to info-->
+    <!-- only shows if you chose the voting option-->
+    <div {playlist-voting-dynamic-container}="">
+     <div class="tuneto">
+       Tune To: <br> 96.1 FM
+     </div>
+    </div>
+    <!-- only shows if you chose the jukebox option-->
+    <div {jukebox-dynamic-container}="">
+      <div class="tuneto">
+        <p>
+          Tune Radio To:
+          <br />
+          96.1 FM
+        </p>
+      </div>
+    </div>
+
+    <!--Section 7: Remote Falcon Titles-->
+      <!-- only shows if you chose the jukebox option-->
+      <div {jukebox-dynamic-container}="">
+          <!-- This section is what shows what is currently playing Don't delete -->
+          <div class="rf-titles">
+            <h2>Now Playing:</h2>            
+          </div>
+          <br />
+          <div class="playing-now">{NOW_PLAYING}</div>
+          <br />
+          <div class="rf-titles">
+            <h2>Playing Next:</h2>
+          </div>
+          <br />
+          <div class="jukebox-queue-container">{NEXT_PLAYLIST}</div>
+          <div class="jukebox-queue-container">{JUKEBOX_QUEUE}</div>
+      </div>
+      <br />
+
+      <!-- only shows if you chose the voting option-->
+      <div {playlist-voting-dynamic-container}="">
+          <!-- This section is what shows what is currently playing Don't delete -->
+          <div class="rf-titles">
+            <h2>Now Playing:</h2>
+          </div>
+          <br />
+          <div class="playing-now">{NOW_PLAYING}</div>
+      </div>
+      <br />
+       <!-- ######### JUKEBOX MODE & VOTING MODE######### -->
+      <!-- The section below will only display if your show is set for Jukebox mode, there
+  is no need to delete it if you are using the Voting mode, and you might change yourmind on the selection method later! -->
+      <!-- This section is used for the instructions that you want if you are using the Jukebox mode. 
+  If you are using the voting mode, then it will not show.Note that you can use the {QUEUE_SIZE} in your instructions, You shouldn't delete this if you are using the voting modebecause you might change your mind later.Modify this to provide the instructions you want for your audience-->
+  <div {jukebox-dynamic-container}="">
+    <h2>Jukebox Player</h2>
+    Select any song that you would like to hear from the list below.
+    Requests are limited to {QUEUE_DEPTH} songs and will be played in
+    the order that they are selected.
+    <br />
+    <div class="text">🎅</div>
+    <div class="text">🎄</div>
+    <div class="text">🎁</div>
+    <div class="text">🎅</div>
+  </div>
+
+  <!-- This section is used for the instructions that you want if you are using the Voting mode. 
+If you are using the jukebox mode, then it will not show.You shouldn't delete this if you are using the voting modebecause you might change your mind later.Modify this to provide the instructions you want for your audience-->
+  <div {playlist-voting-dynamic-container}="">
+    <h2>Voting is Open</h2>
+    Vote for your favorite song from the list below. Your vote will be
+    added to the song you choose.
+    <br />
+    The song with the most votes will play next!
+    <br />
+    You can only vote once per round and voting will reset when the song
+    with the highest votes starts to play.
+    <br />
+    <div class="text">🎅</div>
+    <div class="text">🎄</div>
+    <div class="text">🎁</div>
+    <div class="text">🎅</div>
+  </div>
+  <div class="bodyarea">
+    <!-- *****************************************
+The sections below are for the error messages, don't delete them!    ************************************* -->
+    <div id="requestSuccessful" style="display: none">
+      <div class="innerRequestSuccessful">
+        HO HO HO
+        <br />
+        You're on the NICE LIST!
+      </div>
+    </div>
+    <div id="requestFailed" style="display: none">
+      <div class="failed_Info_Box">
+        RUDOLPH IS MISSIMG
+        <br />
+        An unexpected error has occured!
+      </div>
+    </div>
+    <div id="requestPlaying" style="display: none">
+      <div class="failed_Info_Box">
+        GREAT TASTE
+        <br />
+        The selected song is already requested!
+      </div>
+    </div>
+    <div id="queueFull" style="display: none">
+      <div class="failed_Info_Box">
+        SANTA'S LIST IS FULL
+        <br />
+        We've reached the maximum of {QUEUE_DEPTH} requests
+      </div>
+    </div>
+    <div id="invalidLocation" style="display: none">
+      <div class="failed_Info_Box">
+        YOU'RE NOT FROM AROUND HERE
+        <br />
+        Did you allow your location?
+      </div>
+    </div>
+    <div id="invalidLocationCode" style="display: none">
+      <div class="failed_Info_Box">
+        YOU'RE NOT FROM AROUND HERE
+        <br />
+        Did you enter the location code correctly?
+      </div>
+    </div>
+    <div id="alreadyVoted" style="display: none">
+      <div class="failed_Info_Box">
+        DON'T BE A GRINCH
+        <br />
+        You can only vote once per round.
+      </div>
+    </div>
+
+    <!-- end of error messages -->
+  <div {playlist-voting-dynamic-container}="">
+    <!-- The section below will only display if your show is set for Voting mode, there
+is no need to delete it if you are using the Jukebox mode, and you might change your mind on the selection method later! -->
+    <div class="rtable">
+      <div class="cell-vote-playlist">
+        <h2>Pick Below</h2>
+      </div>
+      <div class="cell-vote">
+        <h2>Votes</h2>
+      </div>
+    </div>
+    <div class="rtable">{PLAYLISTS}</div>
+    <br />
+    <br />
+  </div>
+
+  <!-- The section below will only display if your show is set for Jukebox mode, there
+is no need to delete it if you are using the Voting mode, and you might change your mind on the selection method later! -->
+  <div {playlist-standard-dynamic-container}="">
+    <div id="playlists_container">{PLAYLISTS}</div>
+  </div>
+</div>
+</div>
+<h2> Deisgned by 🔔 Sleigh Bell Mel 🔔 <br>
+Hosted by Remote Falcon</h2>
+ </body>
+</html>

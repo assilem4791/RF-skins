@@ -1,0 +1,29 @@
+
+Viewer Page Dynamic Elements
+Located on the Viewer Page are a number of dynamic div containers, tags, and status messages that allow Remote Falcon to automatically show and hide sections of the page and insert data into the appropriate spots. Following is a list of each dynamic container and each tag used on the viewer page, along with a description of its purpose:
+
+Dynamic Div Containers:
+
+{after-hours-message} - The content within this dynamic div container only appears when Viewer Control has been turned off. It's purpose is to display content to be seen when your show is not running.
+{jukebox-dynamic-container} - Anything that appears in this container will display if Jukebox mode is enabled.
+{playlist-voting-dynamic-container} - Anything in this container will display if Voting mode is enabled.
+{location-code-dynamic-container} - If you have the Code option selected for Viewer Location Checks, then the content within this container will display.
+Tags
+
+{NOW_PLAYING} - Displays the current playing sequence.
+{NEXT_PLAYLIST} - Displays the next playlist in the queue (used only in Jukebox mode).
+{QUEUE_SIZE} - Displays the current size of the queue.
+{JUKEBOX_QUEUE} - Displays a list of all the sequences that are currently in the queue (does not include NEXT_PLAYLIST).
+{QUEUE_DEPTH} - Displays the current maximum queue depth that is set in the Control Panel.
+{LOCATION_CODE} - Displays the input field used to enter the location code.
+{PLAYLISTS} - Displays the list of playlists (if Jukebox) or playlist plus votes (if Voting).
+Status Messages
+
+requestSuccessful - Displays if a request or vote is made successfully.
+requestFailed - Displays if something bad happens and we don't know why.
+requestPlaying - Displays if a request is made for a sequence that is already playing, up next, or falls withing the request limit.
+queueFull - Displays if a request is made that exceeds the maximum queue depth.
+invalidLocation - Displays if GPS Location is selected for Viewer Location Checks and the viewer attempts to place a request or vote outside the allowed radius.
+alreadyVoted - Displays if Prevent Multiple Votes is enabled and a viewer tries to vote more than once in a given round.
+invalidLocationCode - Displays if the Code option selected for Viewer Location Checks and a viewer attempts to place a request or vote with an incorrect or missing code.
+locationNotice - Displays a notice if the viewer has not accepted location info and location checks are enabled.

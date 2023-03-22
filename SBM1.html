@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sleigh Bell Mel's</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&amp;family=Fredoka:wght@300;500&amp;family=Rouge+Script&amp;display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --clr-primary-1: white;
+      --clr-primary-2: red;
+      --clr-primary-3: green;
+      --background: linear-gradient(rgb(11, 23, 34) 30%, #667);
+      --backgroundShadow: -6px 6px 15px rgba(0, 0, 0, 0.5);
+      --ff-primary: 'Fredoka', sans-serif;
+      --ff-secondary: 'Rouge Script', cursive;
+      --fw-regular: 300;
+      --fw-bold: 500;
+      --fs-xsmall: .5;
+      --fs-small: 1.5rem;
+      --fs-medium: 2rem;
+      --fs-large: 3rem;
+      --fs-xlarge: 4rem;
+      --fs-xxlarge: 5rem;
+      --fs-xxxlarge: 7rem;
+    }
+
+    /* Box sizing rules */
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Remove default margin */
+    * {
+      margin: 0;
+      padding: 0;
+      font: inherit;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Set core root defaults */
+    html:focus-within {
+      scroll-behavior: smooth;
+    }
+
+    /* Set core body defaults */
+    body {
+      position: fixed;
+      height: 100vh;
+      height: 100svh;
+      width: 100vw;
+      width: 100svw;
+      text-rendering: optimizeSpeed;
+      color: var(--clr-primary-1);
+      font-family: var(--ff-primary);
+      font-size: var(--fs-small);
+      font-weight: var(--fw-regular);
+      background: var(--background);
+      overflow: auto;
+      z-index: -1;
+    }
+
+    /* Make images easier to work with */
+    img,
+    picture,
+    svg {
+      display: block;
+    }
+
+    /* Utility Classes*/
+    .text {
+      display: inline-block;
+      color: var(--background);
+      font-size: var(--fs-large);
+      font-weight: bold;
+      position: relative;
+      font-family: sans-serif;
+      text-transform: uppercase;
+      text-shadow: var(--backgroundShadow),
+    }
+
+    .top h1 {
+      color: white;
+      font-family: var(--ff-secondary);
+      font-size: var(--fs-xxxlarge);
+      text-shadow: 1px 1px 2px black, 0 0 25px red, 0 0 5px darkred;
+    }
+
+    .top img {
+      width: 7rem;
+      height: 7rem;
+    }
+
+    .middle {
+      font-family: var(--ff-primary);
+      font-size: var(--fs-medium);
+    }
+
+    .middle h1 {
+      font-family: var(--ff-primary);
+      font-weight: var(--fw-bold);
+      font-size: var(--fs-xlarge);
+    }
+
+    .bottom h1 {
+      color: white;
+      font-family: var(--ff-secondary);
+      font-size: var(--fs-xlarge);
+      text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+      padding: 2rem;
+    }
+
+    a:link,
+    a:visited {
+      color: var(--clr-primary-1);
+    }
+
+    a:hover, a:focus {
+      color: var(--clr-primary-2);
+    }
+
+    .address {
+      font-size: var(--fs-small);
+    }
+
+    .tuneto {
+      font-family: var(--ff-primary);
+      font-size: var(--fs-medium);
+    }
+
+    .bodyarea {
+      position: relative;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* other stuffs */
+    .after-hours {
+      font-family: var(--ff-primary);
+      font-size: var(--fs-medium);
+      color: var(--clr-primary-2);
+    }
+
+    .body_text {
+      /** only needed if you want a different background color for all of the body text sections
+        background-color: #000000;
+        **/
+      margin: auto;
+      width: 90%;
+      color: #FFFFFF;
+      text-align: center;
+      font-size: var(--fs-small);
+    }
+
+    /*******************************
+          The rtable is used to configure table where the rf lists will show
+          You shouldn't modify this
+      *******************************/
+    .rtable {
+      display: flex;
+      flex-wrap: wrap;
+      margin: auto;
+      text-align: center;
+      width: 80%;
+      padding: 0;
+      font-family: var(--ff-primary);
+      font-size: var(--fs-small);
+    }
+
+    /*******************************
+      The cell-vote-playlist is used to configure the table where the rf lists will show when you are using the voting mode
+      You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+    .cell-vote-playlist {
+      display: flex;
+      align-items: center;
+      width: 80%;
+      margin: 0 auto;
+      position: relative;
+      padding: .1rem;
+      box-sizing: border-box;
+      color: var(--clr-primary-1);
+      background: #000;
+      background-clip: padding-box;
+      border: solid 5px transparent;
+      border-radius: 1em;
+    }
+
+    .cell-vote-playlist:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      margin: -5px;
+      border-radius: inherit;
+      background: linear-gradient(to right, red, green);
+      z-index: -1;
+    }
+
+    .cell-vote-playlist:hover {
+      color: var(--clr-primary-3);
+      margin: -2px;
+    }
+
+    /*******************************
+      The cell-vote is used to configure the table where the rf lists will show when you are using the voting mode
+      You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+    .cell-vote {
+      display: flex;
+      align-items: center;
+      
+      width: 20%;
+      margin: 0 auto;
+      position: relative;
+      padding: .1rem;
+      box-sizing: border-box;
+      color: var(--clr-primary-1);
+      background: #000;
+      background-clip: padding-box;
+      border: solid 5px transparent;
+      border-radius: 1em;
+    }
+
+    .cell-vote:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      margin: -5px;
+      border-radius: inherit;
+      background: linear-gradient(to right, red, green);
+      z-index: -1;
+    }
+
+    /*******************************
+          The playlists-container is used to configure the section where the
+          list of your songs is shown
+      *******************************/
+    #playlists_container {
+      /** only needed if you want a different background color for this section
+        background-color: #000000;
+        **/
+      margin: auto;
+      width: 90%;
+      color: #FFFFFF;
+      text-align: center;
+      padding: 2% 25%;
+      font-family: var(--ff-primary);
+      font-size: var(--fs-small);
+    }
+
+    /*******************************
+          The jukebox-list is used to configure the table where the rf lists will show when you are using the jukebox mode
+          You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+    .jukebox-list {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin: 0 auto;
+      position: relative;
+      padding: .1rem;
+      box-sizing: border-box;
+      color: var(--clr-primary-1);
+      background: #000;
+      background-clip: padding-box;
+      border: solid 5px transparent;
+      border-radius: 1em;
+    }
+
+    .jukebox-list:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      margin: -5px;
+      border-radius: inherit;
+      background: linear-gradient(to right, red, green);
+    }
+
+    .jukebox-list:hover {
+      color: var(--clr-primary-3);
+      margin: -2px;
+    }
+
+    /*******************************
+          The innerRequestSuccessful is used to configure the message for sucessful requests
+      *******************************/
+    .innerRequestSuccessful {
+      background-color: var(--clr-primary-3);
+      width: 80%;
+      color: var(--clr-primary-1);
+      text-align: center;
+      font-size: var(--fs-medium);
+      font-weight: var(--fw-bold);
+      opacity: 0.7;
+      border-radius: 10px;
+    }
+
+    /*******************************
+      The failed_Info_Box is used to configure the message for unsucessful requests
+      *******************************/
+    .failed_Info_Box {
+      background-color: var(--clr-primary-2);
+      width: 80%;
+      color: var(--clr-primary-1);
+      text-align: center;
+      font-size: var(--fs-medium);
+      font-weight: var(--fw-bold);
+      opacity: 0.7;
+      border-radius: 10px;
+    }
+
+    .innerRequestSuccessful,
+    .failed_Info_Box {
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+    }
+
+    /**************************** This is the CSS for the on/off air buttons **********************************/
+    .buttonContainer {
+      position: relative;
+      margin: 2rem auto;
+      height: 7rem;
+      width: 20rem;
+      background-color: lightgray;
+      font-family: var(--ff-primary);
+      font-weight: var(--fw-bold);
+      font-size: var(--fs-large);
+      border-radius: 10%;
+      align-items: center;
+    }
+
+    .buttonstripes {
+      position: absolute;
+      background-color: gray;
+      height: 5%;
+      width: 100%;
+      left: 0;
+      z-index: 1;
+    }
+
+    #stripe1 {
+      top: 30%;
+    }
+
+    #stripe2 {
+      top: 40%;
+    }
+
+    #stripe3 {
+      top: 50%;
+    }
+
+    #stripe4 {
+      top: 60%;
+    }
+
+    #stripe5 {
+      top: 70%;
+    }
+
+    .offAir {
+      position: absolute;
+      height: 85%;
+      width: 85%;
+      top: 7%;
+      left: 7%;
+      background-color: lightyellow;
+      color: black;
+      border-radius: 10%;
+      font-size: 1.5em;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .onAir {
+      position: absolute;
+      height: 85%;
+      width: 85%;
+      top: 7%;
+      left: 7%;
+      background-color: lightyellow;
+      border-radius: 10%;
+      font-size: 1.5em;
+      text-align: center;
+      z-index: 2;
+      animation: glowing 1300ms infinite;
+    }
+
+    #pButton {
+      animation: color-change 1300ms infinite;
+    }
+
+    @keyframes color-change {
+      0% {
+        color: darkred;
+      }
+
+      50% {
+        color: red;
+      }
+
+      100% {
+        color: darkred;
+      }
+    }
+
+    @keyframes glowing {
+      0% {
+        background-color: lightyellow;
+        box-shadow: 0 0 10px lightyellow;
+      }
+
+      50% {
+        background-color: lightyellow;
+        box-shadow: 0 0 150px lightyellow;
+      }
+
+      100% {
+        background-color: lightyellow;
+        box-shadow: 0 0 10px lightyellow;
+      }
+    }
+
+    /*social links carousel*/
+    @-webkit-keyframes turn {
+      50% {
+        -webkit-transform: rotateX(5deg) rotateY(0.5turn);
+        -ms-transform: rotateX(5deg) rotateY(0.5turn);
+        transform: rotateX(5deg) rotateY(0.5turn);
+      }
+
+      100% {
+        -webkit-transform: rotateX(-5deg) rotateY(1turn);
+        -ms-transform: rotateX(-5deg) rotateY(1turn);
+        transform: rotateX(-5deg) rotateY(1turn);
+      }
+    }
+
+    @-moz-keyframes turn {
+      50% {
+        -webkit-transform: rotateX(5deg) rotateY(0.5turn);
+        -ms-transform: rotateX(5deg) rotateY(0.5turn);
+        transform: rotateX(5deg) rotateY(0.5turn);
+      }
+
+      100% {
+        -webkit-transform: rotateX(-5deg) rotateY(1turn);
+        -ms-transform: rotateX(-5deg) rotateY(1turn);
+        transform: rotateX(-5deg) rotateY(1turn);
+      }
+    }
+
+    @-o-keyframes turn {
+      50% {
+        -webkit-transform: rotateX(5deg) rotateY(0.5turn);
+        -ms-transform: rotateX(5deg) rotateY(0.5turn);
+        transform: rotateX(5deg) rotateY(0.5turn);
+      }
+
+      100% {
+        -webkit-transform: rotateX(-5deg) rotateY(1turn);
+        -ms-transform: rotateX(-5deg) rotateY(1turn);
+        transform: rotateX(-5deg) rotateY(1turn);
+      }
+    }
+
+    @keyframes turn {
+      50% {
+        -webkit-transform: rotateX(5deg) rotateY(0.5turn);
+        -ms-transform: rotateX(5deg) rotateY(0.5turn);
+        transform: rotateX(5deg) rotateY(0.5turn);
+      }
+
+      100% {
+        -webkit-transform: rotateX(-5deg) rotateY(1turn);
+        -ms-transform: rotateX(-5deg) rotateY(1turn);
+        transform: rotateX(-5deg) rotateY(1turn);
+      }
+    }
+
+    /* carousel */
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      -webkit-perspective: 700rem;
+      -ms-perspective: 700px;
+      perspective: 700px;
+      margin: 0 auto 2rem auto;
+    }
+
+    .container .carousel {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 116.67px;
+      height: 80.83px;
+      margin-left: -58.335px;
+      margin-top: -40.415px;
+      transform-style: preserve-3d;
+      -webkit-transform: rotateX(-5deg) rotateY(0);
+      -ms-transform: rotateX(-5deg) rotateY(0);
+      transform: rotateX(-5deg) rotateY(0);
+      -webkit-animation: turn 20s infinite linear;
+      -moz-animation: turn 20s infinite linear;
+      -o-animation: turn 20s infinite linear;
+      animation: turn 20s infinite linear;
+    }
+
+    .container .carousel .slide {
+      position: absolute;
+      width: 116.67px;
+      height: 80.83px;
+      border-radius: 8px;
+      box-shadow: 0 0 4px 1px #fff;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    .slide img {
+      width: 116.67px;
+      height: 80.83px;
+      border-radius: 8px;
+      background-color: gray;
+    }
+
+    .container .carousel .slide:nth-child(1) {
+      -webkit-transform: rotateY(0deg) translateZ(186.672px);
+      -ms-transform: rotateY(0deg) translateZ(186.672px);
+      transform: rotateY(0deg) translateZ(186.672px);
+    }
+
+    .container .carousel .slide:nth-child(2) {
+      -webkit-transform: rotateY(45deg) translateZ(186.672px);
+      -ms-transform: rotateY(45deg) translateZ(186.672px);
+      transform: rotateY(45deg) translateZ(186.672px);
+    }
+
+    .container .carousel .slide:nth-child(3) {
+      -webkit-transform: rotateY(90deg) translateZ(186.672px);
+      -ms-transform: rotateY(90deg) translateZ(186.672px);
+      transform: rotateY(90deg) translateZ(186.672px);
+    }
+
+    .container .carousel .slide:nth-child(4) {
+      -webkit-transform: rotateY(135deg) translateZ(186.672px);
+      -ms-transform: rotateY(135deg) translateZ(186.672px);
+      transform: rotateY(135deg) translateZ(186.672px);
+    }
+
+    .container .carousel .slide:nth-child(5) {
+      -webkit-transform: rotateY(180deg) translateZ(186.672px);
+      -ms-transform: rotateY(180deg) translateZ(186.672px);
+      transform: rotateY(180deg) translateZ(186.672px);
+    }
+
+    .container .carousel .slide:nth-child(6) {
+      -webkit-transform: rotateY(225deg) translateZ(186.672px);
+      -ms-transform: rotateY(225deg) translateZ(186.672px);
+      transform: rotateY(225deg) translateZ(186.672px);
+    }
+
+    .container .carousel .slide:nth-child(7) {
+      -webkit-transform: rotateY(270deg) translateZ(186.672px);
+      -ms-transform: rotateY(270deg) translateZ(186.672px);
+      transform: rotateY(270deg) translateZ(186.672px);
+    }
+
+    .container .carousel .slide:nth-child(8) {
+      -webkit-transform: rotateY(315deg) translateZ(186.672px);
+      -ms-transform: rotateY(315deg) translateZ(186.672px);
+      transform: rotateY(315deg) translateZ(186.672px);
+    }
+
+    /*************************************************
+                      Tree css
+      *************************************************/
+    .treecontainer {
+      position: relative;
+      display: flex;
+      /*   background: #1c1c1c; */
+      width: 300px;
+      height: 300px;
+      margin: auto;
+      /*   border: 1px solid; */
+      /*   border-radius: 100px; */
+      margin-top: 0%;
+    }
+
+    .tree {
+      position: absolute;
+      background: #2e7039;
+      width: 65%;
+      height: 70%;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      bottom: 13%;
+      left: 18%;
+      z-index: 2;
+    }
+
+    .floor {
+      position: absolute;
+      width: 35%;
+      height: 15%;
+      border-radius: 50%;
+      background: #69122a;
+      bottom: -8%;
+      left: 32%;
+    }
+
+    .star {
+      position: absolute;
+      width: 20%;
+      height: 20%;
+      background: #ffdc5e;
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      left: 40.5%;
+      top: 5%;
+      z-index: 3;
+    }
+
+    .star-highlight {
+      position: absolute;
+      width: 20%;
+      height: 20%;
+      background: #ffedad;
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 50% 70%, 50% 60%, 50% 46%, 50% 36%);
+      left: 40.5%;
+      top: 5%;
+      z-index: 3;
+    }
+
+    .star-light {
+      position: absolute;
+      width: 20%;
+      height: 20%;
+      background: #ffefb5;
+      filter: opacity(.7);
+      border-radius: 50%;
+      left: 40.5%;
+      top: 5%;
+      z-index: 2;
+      animation: star 3s ease-in-out infinite;
+    }
+
+    .trunk {
+      position: absolute;
+      height: 15%;
+      width: 10%;
+      background: #2e2713;
+      bottom: 0;
+      left: 45%;
+      z-index: 1;
+    }
+
+    .ornament {
+      position: absolute;
+      border-radius: 50%;
+      z-index: 3;
+    }
+
+    .large {
+      height: 10%;
+      width: 10%;
+      animation: lights 1.5s linear infinite;
+    }
+
+    .medium {
+      height: 7%;
+      width: 7%;
+      animation: lights 1.4s linear infinite;
+    }
+
+    .small {
+      width: 5%;
+      height: 5%;
+      animation: lights 1.2s linear infinite;
+    }
+
+    .red {
+      background: #FF0000;
+    }
+
+    .pink {
+      background: #F70094;
+    }
+
+    .green {
+      background: #00ff00;
+    }
+
+    .blue {
+      background: #00ffff;
+    }
+
+    .purple {
+      background: #7f00ff;
+    }
+
+    .or1 {
+      left: 33%;
+      top: 42%;
+    }
+
+    .or2 {
+      top: 26%;
+      left: 52%;
+    }
+
+    .or3 {
+      top: 38%;
+      left: 48%;
+    }
+
+    .or4 {
+      top: 29%;
+      left: 41.5%;
+    }
+
+    .or5 {
+      top: 59%;
+      left: 35%;
+    }
+
+    .or6 {
+      top: 41%;
+      left: 59%;
+    }
+
+    .or7 {
+      top: 51%;
+      right: 42%;
+    }
+
+    .or8 {
+      top: 55%;
+      right: 26%;
+    }
+
+    .or9 {
+      top: 67%;
+      left: 55%;
+    }
+
+    .or10 {
+      top: 75%;
+      left: 42%;
+    }
+
+    .or11 {
+      top: 70%;
+      left: 21%;
+    }
+
+    .or12 {
+      top: 73%;
+      right: 22.5%;
+    }
+
+    .shine {
+      position: absolute;
+      width: 60%;
+      height: 60%;
+      background: white;
+      border-radius: 50%;
+      filter: opacity(48%);
+      top: 6%;
+      right: 10%;
+    }
+
+    @keyframes lights {
+      100% {
+        filter: brightness(.7);
+      }
+
+      50% {
+        filter: brightness(1.2);
+      }
+
+      0% {
+        filter: brightness(.7);
+      }
+    }
+
+    @keyframes star {
+      100% {
+        transform: scale(.5);
+      }
+
+      50% {
+        transform: scale(1.1);
+      }
+
+      0% {
+        transform: scale(.5);
+      }
+    }
+
+    /**************************************
+          End of tree css
+      **************************************/
+      .snow,
+      .snow:before,
+      .snow:after {
+        position: absolute;
+        top: -600px;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-image: radial-gradient(4px 4px at 381px 283px, white 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 255px 364px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 64px 390px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 257px 448px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 491px 465px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 461px 216px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 167px 220px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 562px 51px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 572px 193px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 539px 337px, white 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 228px 116px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 345px 554px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 358px 179px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 195px 459px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 219px 328px, white 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 322px 48px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 93px 51px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 60px 266px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 50px 235px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 307px 19px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 69px 587px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 488px 490px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 326px 271px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 586px 458px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 201px 368px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 221px 15px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 188px 101px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 150px 370px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 62px 275px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 588px 110px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 186px 365px, white 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 279px 122px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 430px 406px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 478px 236px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 126px 79px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 332px 563px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 137px 292px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 192px 423px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 388px 335px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 441px 215px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 463px 83px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 569px 80px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 369px 243px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 320px 29px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 246px 237px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 328px 371px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 228px 304px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 440px 456px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 21px 241px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 417px 555px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 331px 295px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 341px 409px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 248px 168px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 36px 31px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 483px 61px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 6px 187px, white 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 582px 118px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 498px 255px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 246px 482px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 231px 100px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 470px 70px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 392px 31px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 497px 447px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 106px 112px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 133px 593px, rgba(255, 255, 255, 0.6) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 384px 536px, rgba(255, 255, 255, 0.8) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 208px 86px, white 70%, rgba(0, 0, 0, 0)), radial-gradient(5px 5px at 388px 498px, rgba(255, 255, 255, 0.7) 70%, rgba(0, 0, 0, 0)), radial-gradient(3px 3px at 148px 540px, rgba(255, 255, 255, 0.9) 70%, rgba(0, 0, 0, 0)), radial-gradient(4px 4px at 452px 591px, white 70%, rgba(0, 0, 0, 0));
+        background-size: 600px 600px;
+        animation: snow 4s linear infinite;
+        content: "";
+        z-index: -20;
+      }
+
+      .snow:after {
+        margin-left: -200px;
+        opacity: 0.4;
+        animation-duration: 8s;
+        animation-direction: reverse;
+        filter: blur(3px);
+      }
+
+      .snow:before {
+        animation-duration: 12s;
+        animation-direction: reverse;
+        margin-left: -300px;
+        opacity: 0.65;
+        filter: blur(1.5px);
+      }
+
+      @keyframes snow {
+        to {
+          transform: translateY(600px);
+        }
+      }
+    @-ms-keyframes snow {
+      0% {
+        background-position: 0px 0px, 0px 0px, 0px 0px;
+      }
+
+      50% {
+        background-position: 500px 500px, 100px 200px, -100px 150px;
+      }
+
+      100% {
+        background-position: 500px 1000px, 200px 400px, -100px 300px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="top">
+      <!-- This is the Title of the Page-->
+      <h1>Slay Bell Mel's</h1>
+
+      <!-- This is the tree under the title-->
+      <div class="treecontainer">
+        <div class="tree"></div>
+        <div class="ornament large red or1">
+          <div class="shine"></div>
+        </div>
+        <div class="ornament medium blue or2">
+          <div class="shine"></div>
+        </div>
+        <div class="ornament small green or3">
+          <div class="shine"></div>
+        </div>
+        <div class="ornament small pink or4">
+          <div class="shine"></div>
+        </div>
+        <div class="ornament large purple or5">
+          <div class="shine"></div>
+        </div>
+        <div class="ornament medium purple or6">
+          <div class="shine"></div>
+        </div>
+        <div class="ornament medium blue or7">
+          <div class="shine"></div>
+        </div>
+        <div class="ornament large pink or8">
+          <div class="shine"></div>
+        </div>
+        <div class="ornament medium red or9">
+          <div class="shine"></div>
+        </div>
+        <div class="ornament medium green or10">
+          <div class="shine"></div>
+        </div>
+        <div class="ornament large pink or11">
+          <div class="shine"></div>
+        </div>
+        <div class="ornament blue large or12">
+          <div class="shine"></div>
+        </div>
+        <div class="star-light"></div>
+        <div class="star"></div>
+        <div class="star-highlight"></div>
+        <div class="trunk"></div>
+        <div class="floor"></div>
+      </div>
+      <br />
+      <br />
+      <div class="text">🎅</div>
+      <div class="text">🎄</div>
+      <div class="text">🎁</div>
+      <div class="text">🎅</div>
+      <br />
+      <br />
+
+      <!--address information-->
+      <div class="address">
+        <a href="https://goo.gl/maps/wMfMVaZvgw1bCg1dA" target="_blank">
+          <img src="https://i.postimg.cc/nLt45NDM/maps-icon.png" alt="Pixley's Pixels" style="max-width: 15%;height:auto;margin: auto;" />
+        </a>
+        <a href="https://goo.gl/maps/wMfMVaZvgw1bCg1dA" target="_blank">
+          261 North Street<br />
+          Whitney Point, NY 13862</a>
+        <br />
+        (7 days a week. Dusk - 11:30 PM)
+      </div>
+    </div> <!-- end of top class-->
+  </header>
+  <main>
+    <div class="middle">
+
+      <!-- ############### On/Off the air buttons #####################-->
+      <!--OFF THE AIR only shows when the show is not running-->
+      <div {after-hours-message}="">
+        <div class="buttonContainer">
+          <div class="buttonstripes" id="stripe1"></div>
+          <div class="buttonstripes" id="stripe2"></div>
+          <div class="buttonstripes" id="stripe3"></div>
+          <div class="buttonstripes" id="stripe4"></div>
+          <div class="buttonstripes" id="stripe5"></div>
+          <div class="offAir">
+            <p>OFF AIR</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ON THE AIR only shows if you have chosen the jukebox option-->
+      <div {jukebox-dynamic-container}="">
+        <div class="buttonContainer">
+          <div class="buttonstripes" id="stripe1"></div>
+          <div class="buttonstripes" id="stripe2"></div>
+          <div class="buttonstripes" id="stripe3"></div>
+          <div class="buttonstripes" id="stripe4"></div>
+          <div class="buttonstripes" id="stripe5"></div>
+          <div class="onAir">
+            <div id="pButton">ON AIR</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ON THE AIR only shows if you have chosen the voting option-->
+      <div {playlist-voting-dynamic-container}="">
+        <div class="buttonContainer">
+          <div class="buttonstripes" id="stripe1"></div>
+          <div class="buttonstripes" id="stripe2"></div>
+          <div class="buttonstripes" id="stripe3"></div>
+          <div class="buttonstripes" id="stripe4"></div>
+          <div class="buttonstripes" id="stripe5"></div>
+          <div class="onAir">
+            <div id="pButton">ON AIR</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ################## TUNE TO INFO ##################### -->
+      <!-- only shows if you chose the voting option-->
+      <div {playlist-voting-dynamic-container}="">
+        <div class="tuneto">
+          <p>
+            Tune Radio To:
+            <br />
+            96.1 FM
+          </p>
+        </div>
+      </div>
+
+      <!-- only shows if you chose the jukebox option-->
+      <div {jukebox-dynamic-container}="">
+        <div class="tuneto">
+          <p>
+            Tune Radio To:
+            <br />
+            96.1 FM
+          </p>
+        </div>
+      </div>
+
+      <!-- ############## NOW PLAYING section #################-->
+      <!-- only shows if you chose the jukebox option-->
+      <div {jukebox-dynamic-container}="">
+        <div class="body_text">
+          <!-- This section is what shows what is currently playing Don't delete -->
+          <div class="rf-titles">
+            <h1>Now Playing:</h1>
+          </div>
+          <div class="playing-now">{NOW_PLAYING}</div>
+          <br />
+          <div class="rf-titles">
+            <h1>Playing Next:</h1>
+          </div>
+          <div class="jukebox-queue-container">{NEXT_PLAYLIST}</div>
+          <div class="jukebox-queue-container">{JUKEBOX_QUEUE}</div>
+        </div>
+      </div>
+
+      <!-- only shows if you chose the voting option-->
+      <div {playlist-voting-dynamic-container}="">
+        <div class="body_text">
+          <!-- This section is what shows what is currently playing Don't delete -->
+          <div class="rf-titles">
+            <h1>Now Playing:</h1>
+          </div>
+          <div class="playing-now">{NOW_PLAYING}</div>
+        </div>
+      </div>
+      <br />
+      <br />
+      <br />
+
+      <!-- ######### JUKEBOX MODE & VOTING MODE######### -->
+      <!-- The section below will only display if your show is set for Jukebox mode, there
+  is no need to delete it if you are using the Voting mode, and you might change yourmind on the selection method later! -->
+      <!-- This section is used for the instructions that you want if you are using the Jukebox mode. 
+  If you are using the voting mode, then it will not show.Note that you can use the {QUEUE_SIZE} in your instructions, You shouldn't delete this if you are using the voting modebecause you might change your mind later.Modify this to provide the instructions you want for your audience-->
+      <div class="body_text" {jukebox-dynamic-container}="">
+        <h2>Jukebox Player</h2>
+        Select any song that you would like to hear from the list below.
+        Requests are limited to {QUEUE_DEPTH} songs and will be played in
+        the order that they are selected.
+        <br />
+        <div class="text">🎅</div>
+        <div class="text">🎄</div>
+        <div class="text">🎁</div>
+        <div class="text">🎅</div>
+      </div>
+
+      <!-- This section is used for the instructions that you want if you are using the Voting mode. 
+    If you are using the jukebox mode, then it will not show.You shouldn't delete this if you are using the voting modebecause you might change your mind later.Modify this to provide the instructions you want for your audience-->
+      <div class="body_text" {playlist-voting-dynamic-container}="">
+        <h2>Voting is Open</h2>
+        Vote for your favorite song from the list below. Your vote will be
+        added to the song you choose.
+        <br />
+        The song with the most votes will play next!
+        <br />
+        You can only vote once per round and voting will reset when the song
+        with the highest votes starts to play.
+        <br />
+        <div class="text">🎅</div>
+        <div class="text">🎄</div>
+        <div class="text">🎁</div>
+        <div class="text">🎅</div>
+      </div>
+      <div class="bodyarea">
+        <!-- *****************************************
+    The sections below are for the error messages, don't delete them!    ************************************* -->
+        <div id="requestSuccessful" style="display: none">
+          <div class="innerRequestSuccessful">
+            HO HO HO
+            <br />
+            You're on the NICE LIST!
+          </div>
+        </div>
+        <div id="requestFailed" style="display: none">
+          <div class="failed_Info_Box">
+            RUDOLPH IS MISSIMG
+            <br />
+            An unexpected error has occured!
+          </div>
+        </div>
+        <div id="requestPlaying" style="display: none">
+          <div class="failed_Info_Box">
+            GREAT TASTE
+            <br />
+            The selected song is already requested!
+          </div>
+        </div>
+        <div id="queueFull" style="display: none">
+          <div class="failed_Info_Box">
+            SANTA'S LIST IS FULL
+            <br />
+            We've reached the maximum of {QUEUE_DEPTH} requests
+          </div>
+        </div>
+        <div id="invalidLocation" style="display: none">
+          <div class="failed_Info_Box">
+            YOU'RE NOT FROM AROUND HERE
+            <br />
+            Did you allow your location?
+          </div>
+        </div>
+        <div id="invalidLocationCode" style="display: none">
+          <div class="failed_Info_Box">
+            YOU'RE NOT FROM AROUND HERE
+            <br />
+            Did you enter the location code correctly?
+          </div>
+        </div>
+        <div id="alreadyVoted" style="display: none">
+          <div class="failed_Info_Box">
+            DON'T BE A GRINCH
+            <br />
+            You can only vote once per round.
+          </div>
+        </div>
+
+        <!-- end of error messages -->
+      <div {playlist-voting-dynamic-container}="">
+        <!-- The section below will only display if your show is set for Voting mode, there
+    is no need to delete it if you are using the Jukebox mode, and you might change your mind on the selection method later! -->
+        <div class="rtable">
+          <div class="cell-vote-playlist">
+            <h2>Pick Below</h2>
+          </div>
+          <div class="cell-vote">
+            <h2>Votes</h2>
+          </div>
+        </div>
+        <div class="rtable">{PLAYLISTS}</div>
+        <br />
+        <br />
+      </div>
+
+      <!-- The section below will only display if your show is set for Jukebox mode, there
+    is no need to delete it if you are using the Voting mode, and you might change your mind on the selection method later! -->
+      <div {playlist-standard-dynamic-container}="">
+        <div id="playlists_container">{PLAYLISTS}</div>
+      </div>
+    </div>
+  </div>
+
+  </main>
+  <footer>
+    <div class="bottom">
+      <!-- This section will display a message if your show isn't
+playing a scheduled playlist-->
+      <div {after-hours-message}="">
+        <div class="after-hours"> Show Hours: <br>
+          Show Starts November 23rd <br>
+          Sun - Sat | Dusk to 11:30 PM<br>
+          Sun - Sat | 5:00 AM to 7:30 AM. <br>
+          <br>
+        </div>
+      </div>
+      <p>Jim, Mel, Justina, Bobby, Sebby, Noah, Micki &amp; Mason</p>
+      <p>
+        <a href="mailto:pixley1974@gmail.com">pixley1974@gmail.com</a>
+      </p>
+      <p>
+        <a href="http://xlights.org/%20" target="_blank">XLights</a>
+        |
+        <a href="https://remotefalcon.com/" target="_blank">Remote Falcon</a>
+        |
+        <a href="https://kulplights.com/product-category/controllers/" target="_blank">Kulp</a>
+        |
+        <a href="https://www.efl-designs.com/" target="_blank">EFL Designs</a>
+        |
+        <a href="https://rgb2go.com/" target="_blank">RGB2GO</a>
+        |
+        <a href="https://wallyslights.com/" target="_blank">Wally's Lights</a>
+        |
+        <a href="https://github.com/FalconChristmas/fpp/releases" target="_blank">FPP</a>
+      </p>
+      <br />
+      <br />
+      <br />
+      <br />
+      <!-- carousel-->
+      <div class="container">
+        <div class="carousel">
+          <div class="slide" draggable="false">
+            <a href="https://www.efl-designs.com/">
+              <img src="https://www.efl-designs.com/wp-content/uploads/2022/12/cropped-cropped-cropped-EFL-Designs-Logo-2-1.png" />
+            </a>
+          </div>
+          <div class="slide" draggable="false">
+            <a href="https://experiencelights.com/">
+              <img src="https://cdn11.bigcommerce.com/s-tpq3jse2lb/images/stencil/original/experience-lights-logo_1641486282__41707.original.png" />
+            </a>
+          </div>
+          <div class="slide" draggable="false">
+            <a href="https://rgb2go.com/">
+              <img src="https://cdn.shopify.com/s/files/1/0603/3670/1605/files/RGB2GO_Wide_b6bec7fe-7f1c-4b49-93e0-81db3f3cb03e.png?v=1644266431&amp;width=500" />
+            </a>
+          </div>
+          <div class="slide" draggable="false">
+            <a href="https://remotefalcon.com/">
+              <img src="https://pixleyspixels.remotefalcon.com/jukebox-v1-rf-only-icon-cropped.png" />
+            </a>
+          </div>
+          <div class="slide" draggable="false">
+            <a href="https://kulplights.com/">
+              <img src="https://i0.wp.com/kulplights.com/wp-content/uploads/2019/03/cropped-kulp3-2.jpg?w=1200&amp;ssl=1" />
+            </a>
+          </div>
+          <div class="slide" draggable="false">
+            <a href="https://xlights.org/">
+              <img src="https://xlights.org/wp-content/uploads/2017/03/XLNC_Main_Page.jpg" />
+            </a>
+          </div>
+          <div class="slide" draggable="false">
+            <a href="https://github.com/FalconChristmas/fpp/releases">
+              <img src="https://avatars.githubusercontent.com/u/5017323?s=200&amp;v=4" />
+            </a>
+          </div>
+          <div class="slide" draggable="false">
+            <a href="https://wallyslights.com/">
+              <img src="https://cdn.shopify.com/s/files/1/0354/4763/6013/files/WL_LOGO_Trimmed_180x.jpg?v=1613536818" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <br />
+      <br />
+      <br />
+      <h1>
+        Merry Christmas
+        <br />
+        and
+        <br />
+        Happy New Year!
+      </h1>
+    </div>
+  </footer>
+<br><br><br>
+  <div class="snow"></div>
+</body>
+
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Haloween</title>    
+    <style type="text/css">   
+    @import url('https://fonts.googleapis.com/css2?family=Frijole&family=Special+Elite&display=swap');
+    /* 
+    ######################################
+    ######### Table of contents ##########
+    ######################################
+
+    Section 1: Variables    
+    Section 2: CSS Reset 
+    Section 3: properties
+    Section 4: heading
+    Section 4: address
+    Section 5: on/off the air graphic
+    Section 6: Tune to info 
+    Section 7: Remote Falcon Titles 
+    Section 8: Utility classes
+    Section 9: lightrope
+    Section 10: facebook
+    Section : jukebox -or- voting
+    Section : falling candy
+
+    Section 11: media query
+  
+
+
+    
+    
+    Viewer Page Dynamic Elements
+    Located on the Viewer Page are a number of dynamic div containers, tags, and status messages that allow Remote Falcon to automatically show and hide sections of the page and insert data into the appropriate spots. Following is a list of each dynamic container and each tag used on the viewer page, along with a description of its purpose:
+
+    Dynamic Div Containers:
+
+    {after-hours-message} - The content within this dynamic div container only appears when Viewer Control has been turned off. It's purpose is to display content to be seen when your show is not running.
+    {jukebox-dynamic-container} - Anything that appears in this container will display if Jukebox mode is enabled.
+    {playlist-voting-dynamic-container} - Anything in this container will display if Voting mode is enabled.
+    {location-code-dynamic-container} - If you have the Code option selected for Viewer Location Checks, then the content within this container will display.
+    Tags
+
+    {NOW_PLAYING} - Displays the current playing sequence.
+    {NEXT_PLAYLIST} - Displays the next playlist in the queue (used only in Jukebox mode).
+    {QUEUE_SIZE} - Displays the current size of the queue.
+    {JUKEBOX_QUEUE} - Displays a list of all the sequences that are currently in the queue (does not include NEXT_PLAYLIST).
+    {QUEUE_DEPTH} - Displays the current maximum queue depth that is set in the Control Panel.
+    {LOCATION_CODE} - Displays the input field used to enter the location code.
+    {PLAYLISTS} - Displays the list of playlists (if Jukebox) or playlist plus votes (if Voting).
+    Status Messages
+
+    requestSuccessful - Displays if a request or vote is made successfully.
+    requestFailed - Displays if something bad happens and we don't know why.
+    requestPlaying - Displays if a request is made for a sequence that is already playing, up next, or falls withing the request limit.
+    queueFull - Displays if a request is made that exceeds the maximum queue depth.
+    invalidLocation - Displays if GPS Location is selected for Viewer Location Checks and the viewer attempts to place a request or vote outside the allowed radius.
+    alreadyVoted - Displays if Prevent Multiple Votes is enabled and a viewer tries to vote more than once in a given round.
+    invalidLocationCode - Displays if the Code option selected for Viewer Location Checks and a viewer attempts to place a request or vote with an incorrect or missing code.
+    locationNotice - Displays a notice if the viewer has not accepted location info and location checks are enabled.
+    */
+
+    /* Section 1: Variables */
+    :root {
+        --primary-color1: rgb(221,74,6);
+        --primary-color2: orange;
+        --primary-color3: green;
+        --primary-color4: black;
+        --primary-color5: white;
+        --primary-color6: purple;
+        --background-color: black;
+        --font-Frijole: 'Frijole', cursive;
+        --font-Special:'Special Elite', cursive;
+        --font-small: 1rem;
+        --font-sm-med: font-size: clamp(0.5rem, 0.0588rem + 1.8824vw, 1rem);
+        --font-medium: clamp(1.5rem, 0.1765rem + 5.6471vw, 3rem);
+        --font-large: clamp(3rem, 0.2353rem + 7.5294vw, 4rem);
+        --font-xlarge: clamp(4rem, -0.6471rem + 11.2941vw, 5rem);
+        --font-xxlarge: 6rem;
+    }
+
+    /* Section 2: CSS Reset */
+
+    /* Box sizing rules */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    /* Remove default margin */
+    body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+     margin: 0;
+    }
+
+    /* Remove default padding */
+    body, p {
+     padding: 0;
+    }
+
+    /* Section 3: properties */
+    body {
+     position: fixed;
+     background-color: var(--background-color);
+     background-repeat: no-repeat;
+     background-attachment: fixed;
+     justify-content: center;
+     align-items: center;
+     text-align: center;
+     color: var(--primary-color1);   
+     height: 100vh;
+     height: 100svh;
+     width: 100vw;
+     width: 100svw;
+     overflow: scroll;
+    }
+
+    img {
+     size: 100%;
+     display: block;
+    }
+
+    /* Section 4: heading */
+    .heading {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      color: var(--primary-color1);
+      font-family: var(--font-Frijole);
+      font-size: var(--font-large);
+    }
+
+    .heading h1 {
+        font-size: var(--font-xxlarge);
+    }
+
+    .headingimg {
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
+
+     /* Section : jukebox -or- voting*/ 
+     .bodyarea {
+      position: relative;
+      align-items: center;
+      justify-content: center;
+    }
+     		/*******************************
+          The rtable is used to configure table where the rf lists will show
+          You shouldn't modify this
+      		*******************************/
+    .rtable {
+      display: flex;
+      flex-wrap: wrap;
+      margin: auto;
+      text-align: center;
+      width: 80%;
+      padding: 0;
+      color: var(--primary-color5);
+      font-family: var(--fontfam-copse);
+      font-size: var(--font-sm-med);
+    }
+
+   				/*******************************
+      The cell-vote-playlist is used to configure the table where the rf lists will show when you are using the voting mode
+      You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+				 /*******************************
+      The cell-vote is used to configure the table where the rf lists will show when you are using the voting mode
+      You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+			 /*******************************
+          The jukebox-list is used to configure the table where the rf lists will show when you are using the jukebox mode
+          You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+	 .cell-vote-playlist, .cell-vote, .jukebox-list {
+        position: relative;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;   
+        margin: 0 auto;
+        padding: .1rem;
+        box-sizing: border-box;
+        color: var(--primary-color5);
+        background: var(--primary-color4);
+        background-clip: padding-box;
+        border: solid 5px transparent;
+        border-radius: 1em;
+	}
+
+    .cell-vote-playlist:hover, .jukebox-list:hover {
+      color: var(--primary-color3);
+      cursor: pointer;
+      margin: -2px;
+    }
+
+ 			/*******************************
+      The cell-vote-playlist is used to configure the table where the rf lists will show when you are using the voting mode
+      You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+    .cell-vote-playlist {
+      width: 80%;
+      
+    }
+
+    .cell-vote-playlist h2:hover {
+      color: var(--primary-color3);
+      margin: -5px;
+    }
+    /*******************************
+      The cell-vote is used to configure the table where the rf lists will show when you are using the voting mode
+      You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+    .cell-vote {      
+      width: 20%;      
+    }
+
+    .cell-vote:before, .jukebox-list:before, .cell-vote-playlist:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      margin: -5px;
+      border-radius: inherit;
+      background: linear-gradient(to right, darkorange, purple, green);
+      z-index: -1;
+    }
+
+      /*******************************
+          The playlists-container is used to configure the section where the
+          list of your songs is shown
+      *******************************/
+      #playlists_container {
+      /** only needed if you want a different background color for this section
+        background-color: #000000;
+        **/
+      margin: auto;
+      width: 90%;
+      text-align: center;
+      padding: 2% 25%;
+      color: var(--primary-color5);
+      font-family: var(--fontfam-copse);
+      font-size: var(--font-sm-med);
+    }
+
+    /*******************************
+          The jukebox-list is used to configure the table where the rf lists will show when you are using the jukebox mode
+          You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+    .jukebox-list {
+      width: 100%;
+     }
+
+      /*******************************
+          The innerRequestSuccessful is used to configure the message for sucessful requests
+      *******************************/
+      .innerRequestSuccessful {
+      background-color: var(--primary-color3);
+      color: var(--primary-color5);
+    }
+
+    /*******************************
+      The failed_Info_Box is used to configure the message for unsucessful requests
+      *******************************/
+    .failed_Info_Box {
+      background-color: var(--primary-color1);
+      color: var(--primary-color5);
+    }
+
+    .innerRequestSuccessful,
+    .failed_Info_Box {
+      position: absolute;
+      width: 80%;
+      left: 50%;
+      border-radius: 10px;
+      text-align: center;
+      font-size: var(--font-sm-med);
+      transform: translate(-50%, -50%);
+      z-index: 100;
+    }
+
+    
+
+    /* Section : falling candy */    
+   /* customizable spook styling */
+   .spook {
+     color: #fff;
+     font-size: 3rem;
+     font-family: Arial, sans-serif;
+     text-shadow: 0 0 5px #000;
+   }
+   
+   @-webkit-keyframes spooks-fall {
+       0% {
+           top: -10%;
+       }
+
+       100% {
+           top: 100%;
+       }
+   }
+   
+   @-webkit-keyframes spooks-shake {
+       0%{
+           -webkit-transform: translateX(0px);
+           transform: translateX(0px);
+       }
+   
+       50% {
+           -webkit-transform: translateX(80px);
+           transform: translateX(80px);
+       }
+   
+       100% {
+           -webkit-transform: translateX(0px);
+           transform: translateX(0px);
+       }
+   }
+   
+   @keyframes spooks-fall {
+     0% {
+       top: -10%;
+     }
+   
+     100% {
+       top: 100%;
+     }
+   }
+   
+   @keyframes spooks-shake {
+     0%{
+       transform: translateX(0px);
+     }
+   
+     50% {
+       transform: translateX(80px);
+     }
+   
+     100% {
+       transform: translateX(0px);
+     }
+   }
+   
+   .spook {
+       position: fixed;
+       top: -10%;
+       z-index: 9999;
+       -webkit-user-select:none;
+       -moz-user-select:none;
+       -ms-user-select:none;
+       user-select:none;
+       cursor:default;
+       opacity: .5;
+       z-index: -1;
+   
+       -webkit-animation-name: spooks-fall, spooks-shake;
+       -webkit-animation-duration: 10s, 3s;
+       -webkit-animation-timing-function: linear, ease-in-out;
+       -webkit-animation-iteration-count: infinite, infinite;
+       -webkit-animation-play-state: running, running;
+   
+       animation-name: spooks-fall, spooks-shake;
+       animation-duration: 10s, 3s;
+       animation-timing-function: linear, ease-in-out;
+       animation-iteration-count: infinite, infinite;
+       animation-play-state: running, running;
+   }
+   .spook:nth-of-type(0) {
+       left: 1%;
+       -webkit-animation-delay: 0s, 0s;
+       animation-delay: 0s, 0s;
+   }
+   .spook:nth-of-type(1) {
+       left: 10%;
+       -webkit-animation-delay: 1s, 1s;
+       animation-delay: 1s, 1s;
+   }
+   .spook:nth-of-type(2) {
+       left: 20%;
+       -webkit-animation-delay: 6s, 0.5s;
+       animation-delay: 6s, 0.5s;
+   }
+   .spook:nth-of-type(3) {
+       left: 30%;
+       -webkit-animation-delay: 4s, 2s;
+       animation-delay: 4s, 2s;
+   }
+   .spook:nth-of-type(4) {
+       left: 40%;
+       -webkit-animation-delay: 2s, 2s;
+       animation-delay: 2s, 2s;
+   }
+   .spook:nth-of-type(5) {
+       left: 50%;
+       -webkit-animation-delay: 8s, 3s;
+       animation-delay: 8s, 3s;
+   }
+   .spook:nth-of-type(6) {
+       left: 60%;
+       -webkit-animation-delay: 6s, 2s;
+       animation-delay: 6s, 2s;
+   }
+   .spook:nth-of-type(7) {
+       left: 70%;
+       -webkit-animation-delay: 2.5s, 1s;
+       animation-delay: 2.5s, 1s;
+   }
+   .spook:nth-of-type(8) {
+       left: 80%;
+       -webkit-animation-delay: 1s, 0s;
+       animation-delay: 1s, 0s;
+   }
+   .spook:nth-of-type(9) {
+       left: 90%;
+       -webkit-animation-delay: 3s, 1.5s;
+       animation-delay: 3s, 1.5s;
+   }
+   .spook:nth-of-type(10) {
+       left: 25%;
+       -webkit-animation-delay: 2s, 0s;
+       animation-delay: 2s, 0s;
+   }
+   .spook:nth-of-type(11) {
+       left: 65%;
+       -webkit-animation-delay: 4s, 2.5s;
+       animation-delay: 4s, 2.5s;
+   }
+   
+
+
+
+
+    /*media queries*/
+    @media only screen and (max-width: 375px){
+     .heading h1 {
+        font-size: var(--font-large);
+    } 
+    }
+    </style>
+</head>
+<body>
+    <!-- /* Section 4: heading */-->
+    <div class="headingimg">
+        <img src="https://i.postimg.cc/wThLCB2g/75d77b78954161-5cb489c277935.gif">
+    </div>
+    <div class="heading">
+        <h1>Slay Belle Mel's</h1>
+    </div>
+    <div class="spooks" aria-hidden="true">
+        <!-- list of html symbol codes can be found here- https://www.toptal.com/designers/htmlarrows/symbols/  or do google search for 'html code symbols' -->
+        <div class="spook"> &#x1F36B; </div>
+        <div class="spook"> &#x1F36C; </div>
+        <div class="spook"> &#x1F36D; </div>
+        <div class="spook"> &#x1F36B; </div>
+        <div class="spook"> &#x1F36C; </div>
+        <div class="spook"> &#x1F36D; </div>
+        <div class="spook"> &#x1F36B; </div>
+        <div class="spook"> &#x1F36C; </div>
+        <div class="spook"> &#x1F36D; </div>
+        <div class="spook"> &#x1F36B; </div>
+        <div class="spook"> &#x1F36C; </div>
+        <div class="spook"> &#x1F36D; </div>
+      </div>
+    <div class="bodyarea">
+        <!-- *****************************************
+    The sections below are for the error messages, don't delete them!    ************************************* -->
+        <div id="requestSuccessful" style="display: none">
+          <div class="innerRequestSuccessful">
+            I'M BEWITCHED
+            <br />
+            You slayed it!
+          </div>
+        </div>
+        <div id="requestFailed" style="display: none">
+          <div class="failed_Info_Box">
+         IT'S MYSTERIOUS
+            <br />
+            An unexpected error has occured!
+          </div>
+        </div>
+        <div id="requestPlaying" style="display: none">
+          <div class="failed_Info_Box">
+            GREAT TASTE
+            <br />
+            The selected song is already requested!
+          </div>
+        </div>
+        <div id="queueFull" style="display: none">
+          <div class="failed_Info_Box">
+            THE LIST IS FULL
+            <br />
+            We've reached the maximum of {QUEUE_DEPTH} requests
+          </div>
+        </div>
+        <div id="invalidLocation" style="display: none">
+          <div class="failed_Info_Box">
+            YOU'RE NOT FROM AROUND HERE
+            <br />
+            Did you allow your location?
+          </div>
+        </div>
+        <div id="alreadyVoted" style="display: none">
+          <div class="failed_Info_Box">
+            DON'T BE A TROLL
+            <br />
+            You can only vote once per round.
+          </div>
+        </div>
+    
+        <!-- end of error messages -->
+      <div {playlist-voting-dynamic-container}="">
+        <!-- The section below will only display if your show is set for Voting mode, there
+    is no need to delete it if you are using the Jukebox mode, and you might change your mind on the selection method later! -->
+        <div class="rtable">
+          <div class="cell-vote-playlist">
+            <h2>Pick Below</h2>
+          </div>
+          <div class="cell-vote">
+            <h2>Votes</h2>
+          </div>
+        </div>
+        <div class="rtable">{PLAYLISTS}</div>
+        <br />
+        <br />
+      </div>
+    
+      <!-- The section below will only display if your show is set for Jukebox mode, there
+    is no need to delete it if you are using the Voting mode, and you might change your mind on the selection method later! -->
+      <div {playlist-standard-dynamic-container}="">
+        <div id="playlists_container">{PLAYLISTS}</div>
+      </div>
+    </div>
+    
+    </body>
+</html>
+

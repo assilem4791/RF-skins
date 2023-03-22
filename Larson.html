@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="user-scalable=no,width=device-width" />
+    <title>Larson Light Show</title>
+    <style type="text/css">
+        /* import fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Cherry+Swash:wght@400;700&family=Codystar:wght@300;400&family=Copse&display=swap');
+
+        /* Reset all box sizing */        
+        *, *::before, *::after {
+        box-sizing: border-box;
+        }
+
+        /* Remove all margins and padding */
+        body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+        margin: 0;
+        padding: 0;
+        }
+
+        /* 
+        ######################################
+        ######### Table of contents ##########
+        ######################################
+
+        Section 1: variables
+        Section 2: properties
+        Section 3: heading
+        Section 4: address
+        Section 5: on/off the air graphic
+        Section 6: Tune to info 
+        Section 7: Remote Falcon Titles 
+        Section 8: Utility classes
+        Section 9: lightrope
+        Section 10: facebook
+        Section 11: media query
+      
+
+
+        
+        
+        Viewer Page Dynamic Elements
+        Located on the Viewer Page are a number of dynamic div containers, tags, and status messages that allow Remote Falcon to automatically show and hide sections of the page and insert data into the appropriate spots. Following is a list of each dynamic container and each tag used on the viewer page, along with a description of its purpose:
+
+        Dynamic Div Containers:
+
+        {after-hours-message} - The content within this dynamic div container only appears when Viewer Control has been turned off. It's purpose is to display content to be seen when your show is not running.
+        {jukebox-dynamic-container} - Anything that appears in this container will display if Jukebox mode is enabled.
+        {playlist-voting-dynamic-container} - Anything in this container will display if Voting mode is enabled.
+        {location-code-dynamic-container} - If you have the Code option selected for Viewer Location Checks, then the content within this container will display.
+        Tags
+
+        {NOW_PLAYING} - Displays the current playing sequence.
+        {NEXT_PLAYLIST} - Displays the next playlist in the queue (used only in Jukebox mode).
+        {QUEUE_SIZE} - Displays the current size of the queue.
+        {JUKEBOX_QUEUE} - Displays a list of all the sequences that are currently in the queue (does not include NEXT_PLAYLIST).
+        {QUEUE_DEPTH} - Displays the current maximum queue depth that is set in the Control Panel.
+        {LOCATION_CODE} - Displays the input field used to enter the location code.
+        {PLAYLISTS} - Displays the list of playlists (if Jukebox) or playlist plus votes (if Voting).
+        Status Messages
+
+        requestSuccessful - Displays if a request or vote is made successfully.
+        requestFailed - Displays if something bad happens and we don't know why.
+        requestPlaying - Displays if a request is made for a sequence that is already playing, up next, or falls withing the request limit.
+        queueFull - Displays if a request is made that exceeds the maximum queue depth.
+        invalidLocation - Displays if GPS Location is selected for Viewer Location Checks and the viewer attempts to place a request or vote outside the allowed radius.
+        alreadyVoted - Displays if Prevent Multiple Votes is enabled and a viewer tries to vote more than once in a given round.
+        invalidLocationCode - Displays if the Code option selected for Viewer Location Checks and a viewer attempts to place a request or vote with an incorrect or missing code.
+        locationNotice - Displays a notice if the viewer has not accepted location info and location checks are enabled.
+        */
+
+
+        /* Section 1: variables */
+        :root{
+         --primarycolor1: white;
+         --primarycolor2: red;
+         --primarycolor3: green;
+         --background: #040483;
+         --font-small: clamp(.25rem, -.0875rem + 8.333vw, 1rem);
+         --font-sm-med: clamp(.50rem, -.0875rem + 8.333vw, 1.5rem);
+         --font-medium: clamp(.10rem, -.0875rem + 8.333vw, 2rem);
+         --font-large:  2.75rem;
+         --font-xlarge: clamp(3rem, 12vw + 1, 5rem);
+         --font-xxlarge: clamp(.10rem, -.0875rem + 8.333vw, 7rem);
+         --fontfam-cody: 'Codystar', cursive;
+         --fontfam-cherry: 'Cherry Swash', cursive;
+         --fontfam-copse: 'Copse', serif;
+         --fontfam-moutains: 'Mountains of Christmas', cursive;
+        }
+
+        /* Section 2: properties */
+        body {
+         background-color: var(--background);
+         background-repeat: no-repeat;
+         background-attachment: fixed;
+         justify-content: center;
+         align-items: center;
+         text-align: center;
+         color: var(--primarycolor1);   
+         position: fixed;
+         height: 100vh;
+         height: 100svh;
+         width: 100vw;
+         width: 100svw;
+         overflow: scroll;
+        }
+
+
+        /* Make images easier to work with */
+        img,
+        picture,
+        svg {
+          display: block;
+          size: 100%;
+        }
+        
+        /* Section 3: heading*/
+        
+    
+      /* Section 3.2: graphic */
+      .graphic {
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 2rem;
+      }
+      .graphic img {
+        width: 50rem;
+        height: 35rem;    
+      }
+     
+      /* Section 4: address */
+      .address {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        font-size: var(--font-medium);
+        font-family: var(--fontfam-copse);
+        align-items: center;
+        justify-content: center;
+      }
+
+      .address img {
+        height: 7rem;
+        width: 7rem;
+        margin: 0 auto; 
+      }
+
+       /* Section 5: on/off the air graphic */
+      .buttonContainer {
+      position: relative;
+      margin: 2rem auto;
+      height: 7rem;
+      width: 20rem;
+      background-color: lightgray;
+      font-family: var(--fontfam-copse);
+      font-weight: var(--fw-bold);
+      font-size: var(--font-large);
+      border-radius: 10%;
+      align-items: center;
+    }
+
+    .buttonstripes {
+      position: absolute;
+      background-color: gray;
+      height: 5%;
+      width: 100%;
+      left: 0;
+      z-index: 1;
+    }
+
+    #stripe1 {
+      top: 30%;
+    }
+
+    #stripe2 {
+      top: 40%;
+    }
+
+    #stripe3 {
+      top: 50%;
+    }
+
+    #stripe4 {
+      top: 60%;
+    }
+
+    #stripe5 {
+      top: 70%;
+    }
+
+    .offAir {
+      position: absolute;
+      height: 85%;
+      width: 85%;
+      top: 7%;
+      left: 7%;
+      background-color: lightyellow;
+      color: black;
+      border-radius: 10%;
+      font-size: 1.5em;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .onAir {
+      position: absolute;
+      height: 85%;
+      width: 85%;
+      top: 7%;
+      left: 7%;
+      background-color: lightyellow;
+      border-radius: 10%;
+      font-size: 1.5em;
+      text-align: center;
+      z-index: 2;
+      animation: glowing 1300ms infinite;
+    }
+
+    #pButton {
+      animation: color-change 1300ms infinite;
+    }
+
+    @keyframes color-change {
+      0% {
+        color: darkred;
+      }
+
+      50% {
+        color: red;
+      }
+
+      100% {
+        color: darkred;
+      }
+    }
+
+    @keyframes glowing {
+      0% {
+        background-color: lightyellow;
+        box-shadow: 0 0 10px lightyellow;
+      }
+
+      50% {
+        background-color: lightyellow;
+        box-shadow: 0 0 150px lightyellow;
+      }
+
+      100% {
+        background-color: lightyellow;
+        box-shadow: 0 0 10px lightyellow;
+      }
+    }
+
+      /* Section 6: Tune to info */
+      .tuneto {
+        font-size: var(--font-medium);
+        font-family: var(--fontfam-copse);
+        color: var(--primarycolor3);
+        padding-bottom: 1rem;
+      }
+
+      /* Section 7: Remote Falcon Titles */
+      .rf-titles {
+        align-items: center;
+        width: 50%;
+        margin: 0 auto;
+        font-family: var(--fontfam-cherry);        
+        font-size: var(--font-sm-med);
+        border-style: .25rem;
+        border-style: dotted;
+        border-radius: 1rem;
+        background: linear-gradient(to left, black, green, black);
+        }
+
+      .playing-now, .jukebox-queue-container {
+        font-family: var(--fontfam-copse);
+        font-size: var(--font-sm-med);
+      }
+
+      /* Section 8: Utility classes */
+      .text {
+      display: inline-block;
+      color: var(--background);
+      font-size: var(--font-medium);
+      font-weight: bold;
+      position: relative;
+      font-family: sans-serif;
+      text-transform: uppercase;
+      text-shadow: var(--backgroundShadow),
+      }
+
+      .bodyarea {
+      position: relative;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+        /*******************************
+          The rtable is used to configure table where the rf lists will show
+          You shouldn't modify this
+      *******************************/
+    .rtable {
+      display: flex;
+      flex-wrap: wrap;
+      margin: auto;
+      text-align: center;
+      width: 80%;
+      padding: 0;
+      font-family: var(--fontfam-copse);
+      font-size: var(--font-sm-med);
+    }
+
+    /*******************************
+      The cell-vote-playlist is used to configure the table where the rf lists will show when you are using the voting mode
+      You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+    .cell-vote-playlist {
+      position: relative;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      width: 80%;
+      margin: 0 auto;
+      padding: .1rem;
+      box-sizing: border-box;
+      color: var(--primarycolor1);
+      background: #000;
+      background-clip: padding-box;
+      border: solid 5px transparent;
+      border-radius: 1em;
+    }
+
+    .cell-vote-playlist:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      margin: -5px;
+      border-radius: inherit;
+      background: linear-gradient(to right, red, green);
+      z-index: -1;
+    }
+
+    .cell-vote-playlist:hover {
+      color: var(--primarycolor3);
+      cursor: pointer;
+      margin: -2px;
+    }
+
+    .cell-vote-playlist h2:hover {
+      color: var(--primarycolor1);
+      margin: -5px;
+    }
+    /*******************************
+      The cell-vote is used to configure the table where the rf lists will show when you are using the voting mode
+      You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+    .cell-vote {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      width: 20%;
+      margin: 0 auto;
+      position: relative;
+      padding: .1rem;
+      box-sizing: border-box;
+      color: var(--primarycolor1);
+      background: #000;
+      background-clip: padding-box;
+      border: solid 5px transparent;
+      border-radius: 1em;
+    }
+
+    .cell-vote:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      margin: -5px;
+      border-radius: inherit;
+      background: linear-gradient(to right, red, green);
+      z-index: -1;
+    }
+
+      /*******************************
+          The playlists-container is used to configure the section where the
+          list of your songs is shown
+      *******************************/
+      #playlists_container {
+      /** only needed if you want a different background color for this section
+        background-color: #000000;
+        **/
+      margin: auto;
+      width: 90%;
+      color: #FFFFFF;
+      text-align: center;
+      padding: 2% 25%;
+      font-family: var(--fontfam-copse);
+      font-size: var(--font-sm-med);
+    }
+
+    /*******************************
+          The jukebox-list is used to configure the table where the rf lists will show when you are using the jukebox mode
+          You shouldn't modify this with the exception of the font-size, border and cursor properties
+      *******************************/
+    .jukebox-list {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin: 0 auto;
+      position: relative;
+      padding: .1rem;
+      box-sizing: border-box;
+      color: var(--primarycolor1);
+      background: #000;
+      background-clip: padding-box;
+      border: solid 5px transparent;
+      border-radius: 1em;
+    }
+
+    .jukebox-list:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      margin: -5px;
+      border-radius: inherit;
+      background: linear-gradient(to right, red, green);
+    }
+
+    .jukebox-list:hover {
+      color: var(--primarycolor3);
+      margin: -2px;
+    }
+
+    /*******************************
+          The innerRequestSuccessful is used to configure the message for sucessful requests
+      *******************************/
+    .innerRequestSuccessful {
+      background-color: var(--primarycolor3);
+      width: 80%;
+      color: var(--primarycolor1);
+      text-align: center;
+      font-size: var(--font-sm-med);
+      border-radius: 10px;
+    }
+
+    /*******************************
+      The failed_Info_Box is used to configure the message for unsucessful requests
+      *******************************/
+    .failed_Info_Box {
+      background-color: var(--primarycolor2);
+      width: 80%;
+      color: var(--primarycolor1);
+      text-align: center;
+      font-size: var(--font-sm-med);
+      border-radius: 10px;
+    }
+
+    .innerRequestSuccessful,
+    .failed_Info_Box {
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+    }
+
+    /* Section 9: lightrope */
+    .lightrope {
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+      margin: -15px 0 0 0;
+      padding: 0;
+      pointer-events: none;
+      width: auto;
+    }
+ 
+   .lightrope li {
+     position: relative;
+     animation-fill-mode: both;
+     animation-iteration-count: infinite;
+     list-style: none;
+     margin: 0;
+     padding: 0;
+     display: block;
+     width: 12px;
+     height: 28px;
+     border-radius: 50%;
+     margin: 20px;
+     display: inline-block;
+     background: rgba(0, 247, 165, 1);
+     box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 247, 165, 1);
+     animation-name: flash-1;
+     animation-duration: 2s;
+   }
+ 
+   .lightrope li:nth-child(2n+1) {
+     background: rgba(0, 255, 255, 1);
+     box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 255, 255, 0.5);
+     animation-name: flash-2;
+     animation-duration: 0.4s;
+   }
+ 
+   .lightrope li:nth-child(4n+2) {
+     background: rgba(247, 0, 148, 1);
+     box-shadow: 0px 4.6666666667px 24px 3px rgba(247, 0, 148, 1);
+     animation-name: flash-3;
+     animation-duration: 1.1s;
+   }
+ 
+   .lightrope li:nth-child(odd) {
+     animation-duration: 1.8s;
+   }
+ 
+   .lightrope li:nth-child(3n+1) {
+     animation-duration: 1.4s;
+   }
+ 
+   .lightrope li:before {
+     content: "";
+     position: absolute;
+     background: #222;
+     width: 10px;
+     height: 9.3333333333px;
+     border-radius: 3px;
+     top: -4.6666666667px;
+     left: 1px;
+   }
+ 
+   .lightrope li:after {
+     content: "";
+     top: -14px;
+     left: 9px;
+     position: absolute;
+     width: 52px;
+     height: 18.6666666667px;
+     border-bottom: solid #222 2px;
+     border-radius: 50%;
+   }
+ 
+   .lightrope li:last-child:after {
+     content: none;
+   }
+ 
+   .lightrope li:first-child {
+     margin-left: -40px;
+   }
+ 
+   @keyframes flash-1 {
+ 
+     0%,
+     100% {
+       background: rgba(0, 247, 165, 1);
+       box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 247, 165, 1);
+     }
+ 
+     50% {
+       background: rgba(0, 247, 165, 0.4);
+       box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 247, 165, 0.2);
+     }
+   }
+ 
+   @keyframes flash-2 {
+ 
+     0%,
+     100% {
+       background: rgba(0, 255, 255, 1);
+       box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 255, 255, 1);
+     }
+ 
+     50% {
+       background: rgba(0, 255, 255, 0.4);
+       box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 255, 255, 0.2);
+     }
+   }
+ 
+   @keyframes flash-3 {
+ 
+     0%,
+     100% {
+       background: rgba(247, 0, 148, 1);
+       box-shadow: 0px 4.6666666667px 24px 3px rgba(247, 0, 148, 1);
+     }
+ 
+     50% {
+       background: rgba(247, 0, 148, 0.4);
+       box-shadow: 0px 4.6666666667px 24px 3px rgba(247, 0, 148, 0.2);
+     }
+   }
+
+   /* Section 10: facebook*/ 
+   .fa {
+    padding: 20px;
+    font-size: 30px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+    margin: 5px 2px;
+  }
+  .fa:hover {
+    opacity: 0.7;
+  } 
+  .fa-facebook {
+  background: #3B5998;
+  color: white;
+}
+
+    /* Section 11: media query */   
+       /* If the page is being viewed on a mobile device, do dis */
+      
+      @media only screen and (max-width: 375px){       
+        
+        .address {
+          font-size: var(--font-sm-med);
+        }
+          
+
+      .rtable {
+        font-size: var(--font-small);
+      }
+
+      .rtable h2 {
+        font-size: var(--font-small);
+      }
+
+      .heading {
+        padding-bottom: 5rem;
+        }
+
+       .graphic img {
+        width: 20rem;
+        height: 15rem;
+       } 
+      }
+      
+
+
+    </style>
+</head>
+<body>
+  <ul class="lightrope">
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+    <li><br>
+    </li>
+  </ul>
+    <!--Section 3: heading-->    
+  <div class="graphic">
+    <img src="https://i.postimg.cc/hvjGNJV0/Lightson-A.png" alt="Lights on A Street" />
+  </div>
+  <div class="text">🎅</div>
+  <div class="text">🎄</div>
+  <div class="text">🎁</div>
+  <div class="text">🎅</div>
+ 
+    <!--Section: 4: address-->
+    <div class="address">
+      <a href="https://goo.gl/maps/p2NtT2drx75319Na7" target="_blank">
+        <img src="https://i.postimg.cc/jSKw2dN6/pinpoint-on-map.png">
+      </a>
+      <a href="https://goo.gl/maps/p2NtT2drx75319Na7" target="_blank">
+        6610 A st.<br />
+        Omaha, NE 68106</a>
+      <br><br>
+      Weeknights: 5PM - 10:30 PM <br>
+      Weekends & Holidays: 5PM - 11:30 PM
+    </div>
+    <!--Section 5: on/off the air graphic-->
+    <!--OFF THE AIR only shows when the show is not running-->
+    <div {after-hours-message}="">
+      <div class="buttonContainer">
+        <div class="buttonstripes" id="stripe1"></div>
+        <div class="buttonstripes" id="stripe2"></div>
+        <div class="buttonstripes" id="stripe3"></div>
+        <div class="buttonstripes" id="stripe4"></div>
+        <div class="buttonstripes" id="stripe5"></div>
+        <div class="offAir">
+          <p>OFF AIR</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ON THE AIR only shows if you have chosen the jukebox option-->
+    <div {jukebox-dynamic-container}="">
+      <div class="buttonContainer">
+        <div class="buttonstripes" id="stripe1"></div>
+        <div class="buttonstripes" id="stripe2"></div>
+        <div class="buttonstripes" id="stripe3"></div>
+        <div class="buttonstripes" id="stripe4"></div>
+        <div class="buttonstripes" id="stripe5"></div>
+        <div class="onAir">
+          <div id="pButton">ON AIR</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ON THE AIR only shows if you have chosen the voting option-->
+    <div {playlist-voting-dynamic-container}="">
+      <div class="buttonContainer">
+        <div class="buttonstripes" id="stripe1"></div>
+        <div class="buttonstripes" id="stripe2"></div>
+        <div class="buttonstripes" id="stripe3"></div>
+        <div class="buttonstripes" id="stripe4"></div>
+        <div class="buttonstripes" id="stripe5"></div>
+        <div class="onAir">
+          <div id="pButton">ON AIR</div>
+        </div>
+      </div>
+    </div>
+    <!--Section 6: Tune to info-->
+    <!-- only shows if you chose the voting option-->
+    <div {playlist-voting-dynamic-container}="">
+     <div class="tuneto">
+       PLEASE TUNE TO <br>
+       <span style="color: white;">97.3</span> FM <br>
+       to listen to the sequenced music
+     </div>
+    </div>
+    <!-- only shows if you chose the jukebox option-->
+    <div {jukebox-dynamic-container}="">
+      <div class="tuneto">
+        <p>
+          Tune Radio To:
+          <br />
+          97.3 FM
+        </p>
+      </div>
+    </div>
+
+    <!--Section 7: Remote Falcon Titles-->
+      <!-- only shows if you chose the jukebox option-->
+      <div {jukebox-dynamic-container}="">
+          <!-- This section is what shows what is currently playing Don't delete -->
+          <div class="rf-titles">
+            <h2>Now Playing:</h2>            
+          </div>
+          <br />
+          <div class="playing-now">{NOW_PLAYING}</div>
+          <br />
+          <div class="rf-titles">
+            <h2>Playing Next:</h2>
+          </div>
+          <br />
+          <div class="jukebox-queue-container">{NEXT_PLAYLIST}</div>
+          <div class="jukebox-queue-container">{JUKEBOX_QUEUE}</div>
+      </div>
+      <br />
+
+      <!-- only shows if you chose the voting option-->
+      <div {playlist-voting-dynamic-container}="">
+          <!-- This section is what shows what is currently playing Don't delete -->
+          <div class="rf-titles">
+            <h2>Now Playing:</h2>
+          </div>
+          <br />
+          <div class="playing-now">{NOW_PLAYING}</div>
+      </div>
+      <br />
+       <!-- ######### JUKEBOX MODE & VOTING MODE######### -->
+      <!-- The section below will only display if your show is set for Jukebox mode, there
+  is no need to delete it if you are using the Voting mode, and you might change yourmind on the selection method later! -->
+      <!-- This section is used for the instructions that you want if you are using the Jukebox mode. 
+  If you are using the voting mode, then it will not show.Note that you can use the {QUEUE_SIZE} in your instructions, You shouldn't delete this if you are using the voting modebecause you might change your mind later.Modify this to provide the instructions you want for your audience-->
+  <div {jukebox-dynamic-container}="">
+    <h2>Jukebox Player</h2>
+    Select any song that you would like to hear from the list below.
+    Requests are limited to {QUEUE_DEPTH} songs and will be played in
+    the order that they are selected.
+    <br>
+    <br>
+    <ul class="lightrope">
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+    </ul>
+    <br>
+  </div>
+
+  <!-- This section is used for the instructions that you want if you are using the Voting mode. 
+If you are using the jukebox mode, then it will not show.You shouldn't delete this if you are using the voting modebecause you might change your mind later.Modify this to provide the instructions you want for your audience-->
+  <div {playlist-voting-dynamic-container}="">
+    <h2>Voting is Open</h2>
+    Vote for your favorite song from the list below. Your vote will be
+    added to the song you choose.
+    <br />
+    The song with the most votes will play next!
+    <br />
+    You can only vote once per round and voting will reset when the song
+    with the highest votes starts to play.
+    <br /><br>
+    <ul class="lightrope">
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+      <li><br>
+      </li>
+    </ul>
+    <br>
+  </div>
+  <div class="bodyarea">
+    <!-- *****************************************
+The sections below are for the error messages, don't delete them!    ************************************* -->
+    <div id="requestSuccessful" style="display: none">
+      <div class="innerRequestSuccessful">
+        HO HO HO
+        <br />
+        You're on the NICE LIST!
+      </div>
+    </div>
+    <div id="requestFailed" style="display: none">
+      <div class="failed_Info_Box">
+        RUDOLPH IS MISSIMG
+        <br />
+        An unexpected error has occured!
+      </div>
+    </div>
+    <div id="requestPlaying" style="display: none">
+      <div class="failed_Info_Box">
+        GREAT TASTE
+        <br />
+        The selected song is already requested!
+      </div>
+    </div>
+    <div id="queueFull" style="display: none">
+      <div class="failed_Info_Box">
+        SANTA'S LIST IS FULL
+        <br />
+        We've reached the maximum of {QUEUE_DEPTH} requests
+      </div>
+    </div>
+    <div id="invalidLocation" style="display: none">
+      <div class="failed_Info_Box">
+        YOU'RE NOT FROM AROUND HERE
+        <br />
+        Did you allow your location?
+      </div>
+    </div>
+    <div id="invalidLocationCode" style="display: none">
+      <div class="failed_Info_Box">
+        YOU'RE NOT FROM AROUND HERE
+        <br />
+        Did you enter the location code correctly?
+      </div>
+    </div>
+    <div id="alreadyVoted" style="display: none">
+      <div class="failed_Info_Box">
+        DON'T BE A GRINCH
+        <br />
+        You can only vote once per round.
+      </div>
+    </div>
+
+    <!-- end of error messages -->
+  <div {playlist-voting-dynamic-container}="">
+    <!-- The section below will only display if your show is set for Voting mode, there
+is no need to delete it if you are using the Jukebox mode, and you might change your mind on the selection method later! -->
+    <div class="rtable">
+      <div class="cell-vote-playlist">
+        <h2>Pick Below</h2>
+      </div>
+      <div class="cell-vote">
+        <h2>Votes</h2>
+      </div>
+    </div>
+    <div class="rtable">{PLAYLISTS}</div>
+    <br />
+    <br />
+  </div>
+
+  <!-- The section below will only display if your show is set for Jukebox mode, there
+is no need to delete it if you are using the Voting mode, and you might change your mind on the selection method later! -->
+  <div {playlist-standard-dynamic-container}="">
+    <div id="playlists_container">{PLAYLISTS}</div>
+  </div>
+</div>
+</div>
+
+ <!-- ######### SNOW #########-->
+ <div class="snow">
+  <style>
+.editor-stage .snow {
+height:50px;
+background: #fff;
+}
+.snow{
+position:fixed;
+pointer-events:none;
+top:0;
+left:0;
+right:0;
+bottom:0;
+height:100vh;
+background: none;
+background-image: url('https://s3-eu-west-1.amazonaws.com/static-ressources/s1.png'), url('https://s3-eu-west-1.amazonaws.com/static-ressources/s2.png'), url('https://s3-eu-west-1.amazonaws.com/static-ressources/s3.png');
+z-index:-1;
+opacity: 0.5;
+-webkit-animation: snow 10s linear infinite;
+-moz-animation: snow 10s linear infinite;
+-ms-animation: snow 10s linear infinite;
+animation: snow 10s linear infinite;
+}
+@keyframes snow {
+0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}
+@-moz-keyframes snow {
+0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+100% {background-position: 400px 1000px, 200px 400px, 100px 300px;}
+}
+@-webkit-keyframes snow {
+0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}
+@-ms-keyframes snow {
+0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}
+</style></div>
+<div class="text">🎅</div>
+<div class="text">🎄</div>
+<div class="text">🎁</div>
+<div class="text">🎅</div>
+<br><br>
+
+<h2>Visit us on Facebook and let us know what you think!</h2> <br>
+<a href=" https://www.facebook.com/profile.php?id=100064599226087" class="fa fa-facebook"></a>
+<br><br>
+<ul class="lightrope">
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+  <li><br>
+  </li>
+</ul>
+<h2>Our Christmas display begins on Thanksgiving and runs throughout the holiday season.</h2>
+<h3>Weeknights: 5PM - 10:30 PM <br>
+  Weekends & Holidays: 5PM - 11:30 PM</h3>
+<br>
+<div class="text">🎅</div>
+<div class="text">🎄</div>
+<div class="text">🎁</div>
+<div class="text">🎅</div>
+<br>
+<br>
+
+<h3>Designed by ꧁✧Sleigh Bell Mel✧꧂<br>	<br>
+Hosted by RemoteFalcon</h3>
+ </body>
+</html>
