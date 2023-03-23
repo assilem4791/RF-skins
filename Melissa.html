@@ -793,32 +793,25 @@
       top: 70%;
     }
 
-    .offAir {
+    .offAir, .onAir {
       position: absolute;
       height: 85%;
       width: 85%;
       top: 7%;
       left: 7%;
       background-color: lightyellow;
-      color: black;
       border-radius: 10%;
       font-size: 1.5em;
       text-align: center;
       z-index: 2;
     }
 
-    .onAir {
-      position: absolute;
-      height: 85%;
-      width: 85%;
-      top: 7%;
-      left: 7%;
-      background-color: lightyellow;
-      border-radius: 10%;
-      font-size: 1.5em;
-      text-align: center;
-      z-index: 2;
-      animation: glowing 1300ms infinite;
+    .offAir {
+      color: black;
+    }
+
+    .onAir {      
+       animation: glowing 1300ms infinite;
     }
 
     #pButton {
