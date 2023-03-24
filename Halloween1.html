@@ -74,8 +74,8 @@
         --font-Frijole: 'Frijole', cursive;
         --font-Special:'Special Elite', cursive;
         --font-small: 1rem;
-        --font-sm-med: font-size: clamp(0.5rem, 0.0588rem + 1.8824vw, 1rem);
-        --font-medium: clamp(1.5rem, 0.1765rem + 5.6471vw, 3rem);
+        --font-sm-med: clamp(1rem, 0.0588rem + 1.8824vw, 1.5rem);
+        --font-medium: clamp(1.2rem, 0.4941rem + 3.0118vw, 2rem);
         --font-large: clamp(3rem, 0.2353rem + 7.5294vw, 4rem);
         --font-xlarge: clamp(4rem, -0.6471rem + 11.2941vw, 5rem);
         --font-xxlarge: 6rem;
@@ -163,6 +163,10 @@
       font-size: var(--font-sm-med);
     }
 
+    .rtable h2 {
+    font-size: var(--font-medium);
+  }
+
    				/*******************************
       The cell-vote-playlist is used to configure the table where the rf lists will show when you are using the voting mode
       You shouldn't modify this with the exception of the font-size, border and cursor properties
@@ -190,6 +194,8 @@
         border: solid 5px transparent;
         border-radius: 1em;
 	}
+
+
 
     .cell-vote-playlist:hover, .jukebox-list:hover {
       color: var(--primary-color3);
