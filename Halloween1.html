@@ -79,6 +79,9 @@
         --font-large: clamp(3rem, 0.2353rem + 7.5294vw, 4rem);
         --font-xlarge: clamp(4rem, -0.6471rem + 11.2941vw, 5rem);
         --font-xxlarge: 6rem;
+        --parent-size: 150px;
+        --size: 75px;
+        --offset: 150px;
     }
 
     /* Section 2: CSS Reset */
@@ -100,7 +103,7 @@
 
     /* Section 3: properties */
     body {
-     position: fixed;
+     position: relative;
      background-color: var(--background-color);
      background-repeat: no-repeat;
      background-attachment: fixed;
@@ -108,11 +111,11 @@
      align-items: center;
      text-align: center;
      color: var(--primary-color1);   
-     height: 100vh;
-     height: 100svh;
-     width: 100vw;
-     width: 100svw;
-     overflow: scroll;
+     min-height: 100vh;
+     min-height: 100svh;
+     min-width: 100vw;
+     min-width: 100svw;
+     overflow: auto;
     }
 
     img {
@@ -291,7 +294,76 @@
       z-index: 100;
     }
 
+    /* Links */
     
+.circleParent {
+  position: relative;
+  width: var(--parent-size);
+  background: var(--primary-color1);
+  border-radius: 50%;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+.circleParent h1 {
+  color: var(--primary-color2);
+  font-size: 1.5rem;
+  line-height: 9.5rem;
+  margin: 0 auto;
+}
+
+.circle {
+  position: absolute;
+  top: calc(var(--size) / 2);
+  left: calc(var(--size) / 2);
+  width: var(--size);
+  background-color: var(--primary-color1);
+  border-radius: 50%;
+  aspect-ratio: 1;
+  transform: translate(calc(cos(var(--degrees)) * var(--offset)), calc(sin(var(--degrees)) * var(--offset)));
+}
+
+.circle img {
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.circle:nth-of-type(1) {
+  --degrees: 1 * 360deg / 8;
+}
+
+.circle:nth-of-type(2) {
+  --degrees: 2 * 360deg / 8;
+}
+
+.circle:nth-of-type(3) {
+  --degrees: 3 * 360deg / 8;
+}
+
+.circle:nth-of-type(4) {
+  --degrees: 4 * 360deg / 8;
+}
+
+.circle:nth-of-type(5) {
+  --degrees: 5 * 360deg / 8;
+}
+
+.circle:nth-of-type(6) {
+  --degrees: 6 * 360deg / 8;
+}
+
+.circle:nth-of-type(7) {
+  --degrees: 7 * 360deg / 8;
+}
+
+.circle:nth-of-type(8) {
+  --degrees: 8 * 360deg / 8;
+}
 
     /* Section : falling candy */    
    /* customizable spook styling */
@@ -535,6 +607,7 @@
         <br />
         <br />
       </div>
+      <br><br><br><br><br><br><br>
     
       <!-- The section below will only display if your show is set for Jukebox mode, there
     is no need to delete it if you are using the Voting mode, and you might change your mind on the selection method later! -->
@@ -542,7 +615,33 @@
         <div id="playlists_container">{PLAYLISTS}</div>
       </div>
     </div>
-    
+    <br><br><br><br><br><br><br>
+
+    <div class="circleParent">
+      <h1>LINKS</h1>
+      <div class="circle">
+        <href="https:rgb2go.com/"><img src="https://cdn.shopify.com/s/files/1/0603/3670/1605/files/RGB2GO_Wide_b6bec7fe-7f1c-4b49-93e0-81db3f3cb03e.png?v=1644266431&width=500"></a>
+      </div>
+      <div class="circle"> <a href="https://kulplights.com/">
+          <img src="https://i0.wp.com/kulplights.com/wp-content/uploads/2019/03/cropped-kulp3-2.jpg?w=1200&amp;ssl=1" />
+        </a></div>
+      <div class="circle"><a href="https://xlights.org/">
+          <img src="https://xlights.org/wp-content/uploads/2017/03/XLNC_Main_Page.jpg" />
+        </a></div>
+      <div class="circle"><a href="https://github.com/FalconChristmas/fpp/releases">
+          <img src="https://avatars.githubusercontent.com/u/5017323?s=200&amp;v=4" />
+        </a></div>
+      <div class="circle"> <a href="https://wallyslights.com/">
+          <img src="https://cdn.shopify.com/s/files/1/0354/4763/6013/files/WL_LOGO_Trimmed_180x.jpg?v=1613536818" />
+        </a></div>
+      <div class="circle"><a href="https://www.efl-designs.com/shop/"><img src="https://i0.wp.com/www.efl-designs.com/wp-content/uploads/2022/12/cropped-cropped-cropped-EFL-Designs-Logo-2-1.png?w=250&ssl=1"></a></div>
+      <div class="circle"><a href="https://experiencelights.com/">
+          <img src="https://cdn11.bigcommerce.com/s-tpq3jse2lb/images/stencil/original/experience-lights-logo_1641486282__41707.original.png" />
+        </a></div>
+      <div class="circle"><a href="https://remotefalcon.com/">
+          <img src="https://pixleyspixels.remotefalcon.com/jukebox-v1-rf-only-icon-cropped.png" />
+        </a></div>
+    </div>
     </body>
 </html>
 
